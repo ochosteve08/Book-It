@@ -6,12 +6,12 @@ import {
   signInSuccess,
   showError,
   showLoading,
-  showSuccess,
   showErrorMessage,
 } from "../features/user/UserSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Oauth from "../Components/Oauth";
 import { BASE_URL } from "../../Config";
+import { toast } from "react-toastify";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -21,13 +21,12 @@ const SignIn = () => {
   const loading = useSelector(showLoading);
   const error = useSelector(showError);
   const errorMsg = useSelector(showErrorMessage);
-  const success = useSelector(showSuccess);
+
   const [showMessage, setShowMessage] = useState(false);
 
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.id]: event.target.value });
   };
-
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -48,7 +47,7 @@ const SignIn = () => {
       if (!response.ok) {
         const error = await response.json();
         dispatch(signInFailure(error.message));
-
+        toast.error(error.message);
         throw new Error(error.message || "Something went wrong");
       }
 
@@ -56,6 +55,7 @@ const SignIn = () => {
         const data = await response.json();
 
         dispatch(signInSuccess(data));
+        toast.success("Login successful");
         navigate("/profile");
         setFormData({});
       }
@@ -73,16 +73,15 @@ const SignIn = () => {
   };
 
   useEffect(() => {
-    if (error || success) {
+    if (error) {
       setShowMessage(true);
       const timer = setTimeout(() => {
         setShowMessage(false);
       }, 10000);
 
-    
       return () => clearTimeout(timer);
     }
-  }, [error, success]);
+  }, [error]);
 
   return (
     <div className="p-3 max-w-lg mx-auto">
@@ -123,10 +122,6 @@ const SignIn = () => {
           <div className={`p-3 ${errorMsg ? "bg-red-200" : ""}`}>
             {errorMsg}
           </div>
-        ) : null}
-
-        {showMessage && success ? (
-          <div className={`p-3 bg-green-200`}>SignIn Successful</div>
         ) : null}
       </div>
     </div>
