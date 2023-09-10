@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
 import authRoute from "./route/auth.route.js";
+import userRoute from './route/user.route.js'
 import cookieParser from "cookie-parser";
 import { logger, logEvents } from "./middleware/logger.js";
 import morgan from "morgan";
@@ -56,6 +57,7 @@ app.listen(port, () => {
 
 app.use(logger);
 app.use("/auth", authRoute);
+app.use('/user', userRoute)
 
 
 
