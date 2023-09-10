@@ -27,7 +27,7 @@ const SignIn = () => {
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.id]: event.target.value });
   };
-  console.log(errorMsg)
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
