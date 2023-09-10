@@ -3,10 +3,13 @@ import bcryptjs from "bcryptjs";
 import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
 import { jwtSecret } from "../utils/jwtSecret.js";
+import { registerUserValidation } from "../validation/user.validation/Register.validation.js";
 
 export const Signup = async (req, res, next) => {
   try {
-    const { username, email, password } = req.body;
+
+    const { username, email, password } =
+      await registerUserValidation.validateAsync(req.body);
     const hashPassword = bcryptjs.hashSync(password, 10);
     const newUser = await UserModel.create({
       username,
