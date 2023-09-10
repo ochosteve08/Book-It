@@ -6,7 +6,7 @@ import { FaUserAlt } from "react-icons/fa";
 
 const Header = () => {
   return (
-    <nav className="">
+    <nav className="sticky top-0 z-50 bg-white">
       <div className="flex p-3 justify-between items-center">
         <Link to={"/"}>
           <div className="bg-primary p-1 rounded-lg">

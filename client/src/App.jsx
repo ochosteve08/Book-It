@@ -10,14 +10,15 @@ import Layout from "./Components/Layout";
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Layout />} />
-      <Route index element={<Home />} />
-      <Route path="about" element={<About />} />
-      <Route path="/profile" element={<PrivateRoute />}>
-        <Route index element={<Profile />} />
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Home />} />
+        <Route path="about" element={<About />} />
+        <Route path="/profile" element={<PrivateRoute />}>
+          <Route index element={<Profile />} />
+        </Route>
+        <Route path="signin" element={<SignIn />} />
+        <Route path="signup" element={<SignUp />} />
       </Route>
-      <Route path="signin" element={<SignIn />} />
-      <Route path="signup" element={<SignUp />} />
     </Routes>
   );
 }

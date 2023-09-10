@@ -1,9 +1,9 @@
-import Header from "../Components/Header";
+
 
 const Home = () => {
   return (
     <>
-      <Header />
+     
       <div className="px-12 py-12 max-w-2xl mx-auto text-justify">
         <h1 className="text-3xl font-bold  mb-4 text-slate-800 mx-auto">
           Welcome to my Auth App!
