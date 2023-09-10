@@ -11,6 +11,7 @@ import {
   showErrorMessage,
 } from "../features/user/UserSlice";
 import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -40,21 +41,23 @@ const SignUp = () => {
       });
 
       if (!response.ok) {
-        
         const error = await response.json();
-         dispatch(registerFailure(error.message));
+        dispatch(registerFailure(error.message));
+       
         throw new Error(error.message || "Something went wrong");
       }
 
       if (response.ok) {
         const data = await response.json();
         dispatch(registerSuccess(data));
+        toast.success("Signup successful");
 
         navigate("/signin");
         setFormData({});
       }
     } catch (error) {
-       dispatch(registerFailure(error.message));
+      dispatch(registerFailure(error.message));
+      toast.error(error.message);
     }
   };
 
@@ -112,7 +115,11 @@ const SignUp = () => {
       </div>
       <div>
         {showMessage && error ? (
-          <div className={`p-3 ${errorMsg ? "bg-red-200 rounded-lg text-gray-700" : ""}`}>
+          <div
+            className={`p-3 ${
+              errorMsg ? "bg-red-200 rounded-lg text-gray-700" : ""
+            }`}
+          >
             {errorMsg}
           </div>
         ) : null}

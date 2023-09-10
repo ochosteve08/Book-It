@@ -1,7 +1,7 @@
 import Joi from "joi";
 
 export const registerUserValidation = Joi.object({
-  username: Joi.string().required().label("Username").messages({
+  username: Joi.string().required().min(6).label("Username").messages({
     "string.empty": '"Username" cannot be empty',
     "string.min": '"Username" should have a minimum length of 6',
     "any.required": '"Username" is required',

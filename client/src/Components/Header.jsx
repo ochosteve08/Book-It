@@ -9,14 +9,14 @@ const Header = () => {
     <nav className="sticky top-0 z-50 bg-white">
       <div className="flex p-3 justify-between items-center">
         <Link to={"/"}>
-          <div className="bg-primary p-1 rounded-lg">
+          <div className="bg-primary px-1 rounded-lg">
             <h1 className="font-semibold bg-primary text-white p-1 border-4 rounded-lg  text-md md:text-md">
               BOOK-IT
             </h1>
           </div>
         </Link>
 
-        <div className="flex border border-gray-300 shadow-lg shadow-gray-300  rounded-full p-3 space-x-3 items-center font-medium">
+        <div className="flex border border-gray-300 shadow-lg shadow-gray-300  rounded-full py-2 px-3 space-x-3 items-center font-medium">
           <div className="border-r border-gray-400 px-3">Anywhere</div>
           <div className="border-r border-gray-400 pr-3">Any week</div>
           <div>Add Guests</div>
