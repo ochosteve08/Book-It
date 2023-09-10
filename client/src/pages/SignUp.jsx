@@ -53,41 +53,44 @@ const SignUp = () => {
 
   return (
     <div className="p-3 max-w-lg mx-auto">
-      <h1 className="text-3xl text-center font-bold my-6">Sign Up</h1>
+      <h1 className="text-3xl text-center font-bold my-6">Register</h1>
       <form className="flex flex-col space-y-6" onSubmit={handleSubmit}>
         <input
           type="text"
           id="username"
           placeholder="username"
-          className="bg-slate-200  rounded-lg py-2 px-3 outline-blue-200 hover:outline-blue-500"
+          className="bg-slate-200  rounded-full py-2 px-4 outline-primary hover:outline-primary/50"
           onChange={handleChange}
+          required
         />
         <input
           type="email"
           id="email"
           placeholder="email"
-          className="bg-slate-200  rounded-lg py-2 px-3 outline-blue-200 hover:outline-blue-500"
+          className="bg-slate-200  rounded-full py-2 px-4 outline-primary hover:outline-primary/50"
           onChange={handleChange}
+          required
         />
         <input
           type="password"
           id="password"
           placeholder="password"
-          className="bg-slate-200  rounded-lg py-2 px-3 outline-blue-200 hover:outline-blue-500"
+          className="bg-slate-200  rounded-full py-2 px-4 outline-primary hover:outline-primary/50"
           onChange={handleChange}
+          required
         />
         <button
           disabled={loading}
-          className="bg-orange-600 p-2 uppercase text-white rounded-lg font-semibold disabled:opacity-70"
+          className="bg-primary p-2 uppercase text-white rounded-full font-semibold disabled:opacity-70"
         >
-          {loading ? "Sign Up...." : "Sign Up"}
+          {loading ? "Registering...." : "Register"}
         </button>
         <Oauth />
       </form>
       <div className="flex space-x-3 my-3">
-        <p>Have An Account?</p>
+        <p>Have An Account Already?</p>
         <Link to={"/signin"}>
-          <span className="text-blue-800">Sign In</span>
+          <span className="text-blue-800">Login</span>
         </Link>
       </div>
       <div>
