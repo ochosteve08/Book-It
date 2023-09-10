@@ -22,6 +22,8 @@ import {
   showError,
 } from "../features/user/UserSlice";
 import { BASE_URL } from "../../Config";
+import { toast } from "react-toastify";
+
 
 const Profile = () => {
   const currentUser = useSelector(userDetails);
@@ -120,6 +122,7 @@ const Profile = () => {
           // withCredentials: true,
         });
         const data = await res.json();
+          toast.success("user account deleted successfully");
 
         if (data.success === false) {
           dispatch(deleteUserFailure(data.message));
@@ -128,6 +131,7 @@ const Profile = () => {
         dispatch(deleteUserSuccess(data));
       } catch (error) {
         console.log(error);
+          toast.error(error.message);
         dispatch(deleteUserFailure(error));
       }
     }
@@ -149,11 +153,14 @@ const Profile = () => {
       const data = await res.json();
       if (!res.ok) {
         dispatch(updateUserFailure(data));
+         toast.error(data.message);
         throw new Error("Network response was not ok");
       }
       dispatch(updateUserSuccess(data));
+       toast.success("User info is updated successfully!");
       setUpdateSuccess(true);
     } catch (error) {
+        toast.error(error.message);
       dispatch(updateUserFailure(error));
     }
   };
@@ -166,9 +173,10 @@ const Profile = () => {
         withCredentials: true,
       });
       await response.json();
-
+ toast.success("signout successful");
       dispatch(signOut());
     } catch (error) {
+       toast.error(error.message);
       console.log(error);
     }
   };
@@ -215,7 +223,7 @@ const Profile = () => {
         <input
           type="text"
           id="username"
-          className="bg-slate-200  rounded-lg py-2 px-3 outline-blue-200 hover:outline-blue-500"
+          className="bg-slate-200  rounded-full py-2 px-4 outline-blue-200 hover:outline-blue-500"
           placeholder="username"
           defaultValue={currentUser.username}
           onChange={handleChange}
@@ -224,7 +232,7 @@ const Profile = () => {
           type="email"
           id="email"
           defaultValue={currentUser.email}
-          className="bg-slate-200  rounded-lg py-2 px-3 outline-blue-200 hover:outline-blue-500"
+          className="bg-slate-200  rounded-full py-2 px-3 outline-blue-200 hover:outline-blue-500"
           placeholder="email"
           onChange={handleChange}
           disabled
@@ -232,14 +240,14 @@ const Profile = () => {
         <input
           type="password"
           id="password"
-          className="bg-slate-200  rounded-lg py-2 px-3 outline-blue-200 hover:outline-blue-500"
+          className="bg-slate-200  rounded-full py-2 px-3 outline-blue-200 hover:outline-blue-500"
           placeholder="password"
           onChange={handleChange}
         />
 
         <button
           disabled={loading}
-          className="bg-orange-600 p-2 uppercase text-white rounded-lg font-semibold disabled:opacity-70 hover:opacity-90  "
+          className="bg-primary p-2 uppercase text-white rounded-full font-semibold disabled:opacity-70 hover:opacity-90  "
         >
           {loading ? "UPDATE..." : "UPDATE"}
         </button>
