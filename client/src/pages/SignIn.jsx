@@ -115,7 +115,7 @@ const SignIn = () => {
       <div className="flex space-x-3 my-3">
         <p>Don&#39;t Have An Account yet?</p>
         <Link to={"/signup"}>
-          <span className="text-blue-800">Register</span> now
+          <span className="text-blue-800 cursor-pointer">Register</span> now
         </Link>
       </div>
       <div>

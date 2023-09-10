@@ -28,6 +28,23 @@ export const userSlice = createSlice({
       state.success = false;
       state.error = true;
     },
+    registerStart: (state) => {
+      state.loading = true;
+      state.success = false;
+      state.error = false;
+    },
+    registerSuccess: (state, action) => {
+      state.currentUser = action.payload;
+      state.loading = false;
+      state.error = false;
+      state.success = true;
+    },
+    registerFailure: (state, action) => {
+      state.errMsg = action.payload;
+      state.loading = false;
+      state.success = false;
+      state.error = true;
+    },
     updateUserStart: (state) => {
       state.loading = true;
       state.success = false;
@@ -76,6 +93,9 @@ export const {
   deleteUserSuccess,
   signOut,
   resetMessages,
+  registerFailure,
+  registerStart,
+  registerSuccess
 } = userSlice.actions;
 
 export const showLoading = (state) => state.user.loading;

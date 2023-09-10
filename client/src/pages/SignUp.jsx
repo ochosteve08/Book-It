@@ -1,15 +1,25 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Oauth from "../Components/Oauth";
-import {BASE_URL} from '../../Config'
+import { BASE_URL } from "../../Config";
+import {
+  registerFailure,
+  registerStart,
+  registerSuccess,
+  showError,
+  showLoading,
+  showErrorMessage,
+} from "../features/user/UserSlice";
+import { useSelector, useDispatch } from "react-redux";
 
 const SignUp = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
-
+  const loading = useSelector(showLoading);
+  const error = useSelector(showError);
+  const errorMsg = useSelector(showErrorMessage);
+  const [showMessage, setShowMessage] = useState(false);
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.id]: event.target.value });
   };
@@ -18,8 +28,7 @@ const SignUp = () => {
     event.preventDefault();
 
     try {
-      setLoading(true);
-      setError(false);
+      dispatch(registerStart());
       const response = await fetch(`${BASE_URL}/auth/signup`, {
         method: "POST",
         headers: {
@@ -31,26 +40,34 @@ const SignUp = () => {
       });
 
       if (!response.ok) {
-        setLoading(false);
-        setError(true);
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Something went wrong");
+        
+        const error = await response.json();
+         dispatch(registerFailure(error.message));
+        throw new Error(error.message || "Something went wrong");
       }
 
       if (response.ok) {
-        await response.json();
-        setLoading(false);
-        setError(false);
+        const data = await response.json();
+        dispatch(registerSuccess(data));
+
         navigate("/signin");
         setFormData({});
       }
     } catch (error) {
-      setErrorMsg(error.message);
-      setLoading(false);
-      setError(true);
+       dispatch(registerFailure(error.message));
     }
   };
 
+  useEffect(() => {
+    if (error) {
+      setShowMessage(true);
+      const timer = setTimeout(() => {
+        setShowMessage(false);
+      }, 10000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl text-center font-bold my-6">Register</h1>
@@ -90,11 +107,11 @@ const SignUp = () => {
       <div className="flex space-x-3 my-3">
         <p>Have An Account Already?</p>
         <Link to={"/signin"}>
-          <span className="text-blue-800">Login</span>
+          <span className="text-blue-800 cursor-pointer">Login Here</span>
         </Link>
       </div>
       <div>
-        {error ? (
+        {showMessage && error ? (
           <div className={`p-3 ${errorMsg ? "bg-red-200" : ""}`}>
             {errorMsg}
           </div>
