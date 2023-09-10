@@ -9,8 +9,8 @@ const Header = () => {
     <nav className="">
       <div className="flex p-3 justify-between items-center">
         <Link to={"/"}>
-          <div className="bg-primary p-2 rounded-lg">
-            <h1 className="font-bold bg-primary text-white px-2 py-1 border-4 rounded-lg  text-lg md:text-xl">
+          <div className="bg-primary p-1 rounded-lg">
+            <h1 className="font-semibold bg-primary text-white p-1 border-4 rounded-lg  text-md md:text-md">
               BOOK-IT
             </h1>
           </div>
