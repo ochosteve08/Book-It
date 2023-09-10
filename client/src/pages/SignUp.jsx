@@ -112,7 +112,7 @@ const SignUp = () => {
       </div>
       <div>
         {showMessage && error ? (
-          <div className={`p-3 ${errorMsg ? "bg-red-200" : ""}`}>
+          <div className={`p-3 ${errorMsg ? "bg-red-200 rounded-lg text-gray-700" : ""}`}>
             {errorMsg}
           </div>
         ) : null}
