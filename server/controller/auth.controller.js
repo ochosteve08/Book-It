@@ -7,7 +7,6 @@ import { registerUserValidation } from "../validation/user.validation/Register.v
 
 export const Signup = async (req, res, next) => {
   try {
-
     const { username, email, password } =
       await registerUserValidation.validateAsync(req.body);
     const hashPassword = bcryptjs.hashSync(password, 10);
@@ -35,11 +34,30 @@ export const SignIn = async (req, res, next) => {
     if (!match) {
       return next(errorHandler(401, "wrong credentials"));
     }
-    const token = jwt.sign({ id: validUser._id }, jwtSecret);
+    const access_token = jwt.sign(
+      {
+        email: validUser.email,
+        id: validUser._id,
+        username: validUser.username,
+        profilePicture: validUser.profilePicture,
+      },
+      jwtSecret,
+      { expiresIn: "15m" }
+    );
 
-    const { password: hashPassword, ...rest } = validUser._doc;
+    const refreshToken = jwt.sign(
+      {
+        email: validUser.email,
+        id: validUser._id,
+      },
 
-    res.cookie("access_token", token, {
+      jwtSecret,
+      { expiresIn: "7d" }
+    );
+
+    // const { password: hashPassword, ...rest } = validUser._doc;
+
+    res.cookie("access_token", refreshToken, {
       httpOnly: true,
       // path: "/",
       // domain: "localhost",
@@ -47,9 +65,9 @@ export const SignIn = async (req, res, next) => {
       // domain: "o-auth-puce.vercel.app",
       sameSite: "None",
       secure: true,
-      maxAge: 30 * 60 * 1000,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
-    return res.status(200).json(rest);
+    return res.status(200).json({ access_token });
   } catch (error) {
     next(error);
   }
@@ -127,5 +145,33 @@ export const signout = (req, res, next) => {
   return res.status(200).json({
     success: true,
     message: "Signout successful",
+  });
+};
+
+export const Refresh = (req, res, next) => {
+  const cookies = req.cookies;
+
+  if (!cookies?.jwt) return next(errorHandler(401, "invalid credentials"));
+  const refreshToken = cookies.jwt;
+
+  jwt.verify(refreshToken, jwtSecret, async (err, decoded) => {
+    try {
+      if (err) return next(errorHandler(403, "Invalid refresh token"));
+      const foundUser = await UserModel.findOne({ username: decoded.username });
+      if (!foundUser) return next(errorHandler(401, "User not found"));
+      const access_token = jwt.sign(
+        {
+          email: validUser.email,
+          id: validUser._id,
+          username: validUser.username,
+          profilePicture: validUser.profilePicture,
+        },
+        jwtSecret,
+        { expiresIn: "15m" }
+      );
+      res.json({ access_token });
+    } catch (error) {
+      next(error);
+    }
   });
 };
