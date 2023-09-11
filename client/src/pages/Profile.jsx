@@ -30,6 +30,7 @@ const Profile = () => {
   const dispatch = useDispatch();
   const fileRef = useRef(null);
   const [image, setImage] = useState(undefined);
+  console.log(currentUser)
 
   const loading = useSelector(showLoading);
   const error = useSelector(showError);

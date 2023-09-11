@@ -34,12 +34,9 @@ export const SignIn = async (req, res, next) => {
     if (!match) {
       return next(errorHandler(401, "wrong credentials"));
     }
-    const access_token = jwt.sign(
+    const accessToken = jwt.sign(
       {
-        email: validUser.email,
         id: validUser._id,
-        username: validUser.username,
-        profilePicture: validUser.profilePicture,
       },
       jwtSecret,
       { expiresIn: "15m" }
@@ -47,7 +44,6 @@ export const SignIn = async (req, res, next) => {
 
     const refreshToken = jwt.sign(
       {
-        email: validUser.email,
         id: validUser._id,
       },
 
@@ -55,9 +51,9 @@ export const SignIn = async (req, res, next) => {
       { expiresIn: "7d" }
     );
 
-    // const { password: hashPassword, ...rest } = validUser._doc;
+    const { password: _, ...userInfo } = validUser._doc;
 
-    res.cookie("access_token", refreshToken, {
+    res.cookie("refresh_token", refreshToken, {
       httpOnly: true,
       // path: "/",
       // domain: "localhost",
@@ -67,7 +63,7 @@ export const SignIn = async (req, res, next) => {
       secure: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
-    return res.status(200).json({ access_token });
+    return res.status(200).json({ ...userInfo, accessToken });
   } catch (error) {
     next(error);
   }
@@ -79,21 +75,38 @@ export const Google = async (req, res, next) => {
 
     const User = await UserModel.findOne({ email });
     if (User) {
-      const token = jwt.sign({ id: User._id }, jwtSecret);
-      const { password: hashPassword, ...rest } = User._doc;
-      res
-        .cookie("access_token", token, {
-          httpOnly: true,
-          // path: "/",
-          // domain: "localhost",
-          // SameSite: "lax",
-          // domain: "o-auth-puce.vercel.app",
-          sameSite: "None",
-          secure: true,
-          expiresIn: "30m",
-        })
-        .status(200)
-        .json(rest);
+      const accessToken = jwt.sign(
+        {
+          email: User.email,
+          id: User._id,
+          username: User.username,
+          profilePicture: User.profilePicture,
+        },
+        jwtSecret,
+        {
+          expiresIn: "15m",
+        }
+      );
+      const refreshToken = jwt.sign(
+        {
+          email: User.email,
+          id: User._id,
+          username: User.username,
+          profilePicture: User.profilePicture,
+        },
+        jwtSecret,
+        {
+          expiresIn: "7d",
+        }
+      );
+      const { password: _, ...userInfo } = User._doc;
+      res.cookie("refresh_token", refreshToken, {
+        httpOnly: true,
+        sameSite: "None",
+        secure: true,
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      });
+      res.json({ ...userInfo, accessToken });
     } else {
       const generatedPassword =
         Math.random().toString(36).slice(-8) +
@@ -108,21 +121,35 @@ export const Google = async (req, res, next) => {
         profilePicture: photo,
       });
 
-      const token = jwt.sign({ id: newUser._id }, jwtSecret);
-      const { password: removePassword, ...rest } = newUser._doc;
-
-      res.cookie("access_token", token, {
+      const accessToken = jwt.sign(
+        {
+          id: newUser._id,
+        },
+        jwtSecret,
+        {
+          expiresIn: "15m",
+        }
+      );
+      const refreshToken = jwt.sign(
+        {
+          email: newUser.email,
+          id: newUser._id,
+          username: newUser.username,
+          profilePicture: newUser.profilePicture,
+        },
+        jwtSecret,
+        {
+          expiresIn: "7d",
+        }
+      );
+      const { password: _, ...userInfo } = newUser._doc;
+      res.cookie("refresh_token", refreshToken, {
         httpOnly: true,
-        // path: "/",
-        // domain: "localhost",
-        // SameSite: "lax",
-        // domain: "o-auth-puce.vercel.app",
         sameSite: "None",
         secure: true,
-        expiresIn: "30m",
+        maxAge: 7 * 24 * 60 * 60 * 1000,
       });
-
-      return res.status(200).json(rest);
+      res.json({ ...userInfo, accessToken });
     }
   } catch (error) {
     next(error);
@@ -133,14 +160,14 @@ export const signout = (req, res, next) => {
   const cookies = req.cookies;
 
   //user is already signed out
-  if (!cookies?.access_token) {
+  if (!cookies?.refresh_token) {
     return res.status(200).json({
       success: false,
       message: "Already signed out",
     });
   }
 
-  res.clearCookie("access_token");
+  res.clearCookie("refresh_token");
 
   return res.status(200).json({
     success: true,
@@ -151,25 +178,25 @@ export const signout = (req, res, next) => {
 export const Refresh = (req, res, next) => {
   const cookies = req.cookies;
 
-  if (!cookies?.jwt) return next(errorHandler(401, "invalid credentials"));
-  const refreshToken = cookies.jwt;
+  if (!cookies?.refresh_token)
+    return next(errorHandler(401, "invalid credentials"));
+  const refreshToken = cookies.refresh_token;
 
   jwt.verify(refreshToken, jwtSecret, async (err, decoded) => {
     try {
       if (err) return next(errorHandler(403, "Invalid refresh token"));
-      const foundUser = await UserModel.findOne({ username: decoded.username });
-      if (!foundUser) return next(errorHandler(401, "User not found"));
-      const access_token = jwt.sign(
+      const validUser = await UserModel.findOne({ username: decoded.username });
+      if (!validUser) return next(errorHandler(401, "User not found"));
+
+      const accessToken = jwt.sign(
         {
-          email: validUser.email,
           id: validUser._id,
-          username: validUser.username,
-          profilePicture: validUser.profilePicture,
         },
         jwtSecret,
         { expiresIn: "15m" }
       );
-      res.json({ access_token });
+      const { password: _, ...userInfo } = validUser._doc;
+      res.json({ ...userInfo, accessToken });
     } catch (error) {
       next(error);
     }
