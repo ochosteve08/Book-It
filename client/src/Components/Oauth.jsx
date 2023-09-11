@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { signInSuccess } from "../features/user/UserSlice";
 import { FcGoogle } from "react-icons/fc";
 import { BASE_URL } from "../../Config";
+import { toast } from "react-toastify";
 
 const Oauth = () => {
   const navigate = useNavigate();
@@ -31,10 +32,12 @@ const Oauth = () => {
         const data = await response.json();
 
         dispatch(signInSuccess(data));
-        navigate("/");
+        toast.success("Login successful");
+        navigate("/profile");
       }
     } catch (error) {
       console.log("could not login with google", error);
+      toast.error(error.message);
     }
   };
   return (

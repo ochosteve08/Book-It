@@ -56,7 +56,7 @@ const SignIn = () => {
 
         dispatch(signInSuccess(data));
         toast.success("Login successful");
-        navigate("/");
+        navigate("/profile");
         setFormData({});
       }
     } catch (error) {
