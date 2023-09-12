@@ -24,13 +24,14 @@ import {
 import { BASE_URL } from "../../Config";
 import { toast } from "react-toastify";
 
+let uploadingToastId = null;
 
 const Profile = () => {
   const currentUser = useSelector(userDetails);
   const dispatch = useDispatch();
   const fileRef = useRef(null);
   const [image, setImage] = useState(undefined);
-  console.log(currentUser)
+
 
   const loading = useSelector(showLoading);
   const error = useSelector(showError);
@@ -154,8 +155,8 @@ const Profile = () => {
       const data = await res.json();
       if (!res.ok) {
         dispatch(updateUserFailure(data));
-         toast.error(data.message);
-        throw new Error("Network response was not ok");
+        //  toast.error(data.message);
+        // throw new Error("Network response was not ok");
       }
       dispatch(updateUserSuccess(data));
        toast.success("User info is updated successfully!");
@@ -182,6 +183,19 @@ const Profile = () => {
     }
   };
 
+  useEffect(() => {
+    if (imageError) {
+      toast.error("Error uploading image");
+    } else if (imagePercent > 0 && imagePercent < 100) {
+      toast.dismiss(uploadingToastId); 
+      uploadingToastId = toast.info(`Uploading: ${imagePercent} %`);
+    } else if (showUploadSuccess) {
+      toast.dismiss(uploadingToastId); 
+      toast.success("Image uploaded successfully");
+    }
+  }, [imageError, imagePercent, showUploadSuccess]);
+
+
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl text-center font-bold my-6">Profile</h1>
@@ -204,7 +218,7 @@ const Profile = () => {
           className="rounded-full self-center object-cover h-20 w-20"
         />
 
-        <p className="text-sm self-center">
+        {/* <p className="text-sm self-center">
           {imageError ? (
             <span className="text-red-700">Error uploading image</span>
           ) : imagePercent > 0 && imagePercent < 100 ? (
@@ -214,7 +228,7 @@ const Profile = () => {
           ) : (
             ""
           )}
-        </p>
+        </p> */}
         <div
           className="text-red-800 self-center cursor-pointer hover:underline"
           onClick={() => fileRef.current.click()}
