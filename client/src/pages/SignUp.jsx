@@ -12,6 +12,7 @@ import {
 } from "../features/user/UserSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -30,34 +31,23 @@ const SignUp = () => {
 
     try {
       dispatch(registerStart());
-      const response = await fetch(`${BASE_URL}/auth/signup`, {
-        method: "POST",
+      const {data} = await axios.post(`${BASE_URL}/auth/signup`, formData, {
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include",
-        // withCredentials: true,
-        body: JSON.stringify(formData),
+
+        withCredentials: true,
       });
 
-      if (!response.ok) {
-        const error = await response.json();
-        dispatch(registerFailure(error.message));
-       
-        throw new Error(error.message || "Something went wrong");
-      }
+      dispatch(registerSuccess(data));
+      toast.success("Signup successful");
 
-      if (response.ok) {
-        const data = await response.json();
-        dispatch(registerSuccess(data));
-        toast.success("Signup successful");
-
-        navigate("/signin");
-        setFormData({});
-      }
+      navigate("/signin");
+      setFormData({});
     } catch (error) {
-      dispatch(registerFailure(error.message));
-      toast.error(error.message);
+      const errorMessage = error.response?.data?.message || error.message;
+      dispatch(registerFailure(errorMessage));
+      toast.error(errorMessage);
     }
   };
 

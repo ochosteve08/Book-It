@@ -3,8 +3,11 @@ import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { FaUserAlt } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { userDetails } from "../features/user/UserSlice";
 
 const Header = () => {
+   const currentUser = useSelector(userDetails);
   return (
     <nav className="sticky top-0 z-50 bg-white">
       <div className="flex p-3 justify-between items-center">
@@ -30,9 +33,18 @@ const Header = () => {
 
         <div className="flex border border-gray-300 shadow-lg shadow-gray-300  rounded-full  px-3 py-2 space-x-3 items-center cursor-pointer overflow-hidden">
           <RxHamburgerMenu className="text-xl" />
-          <div className="bg-gray-500  p-2 rounded-full text-white flex ">
-            <FaUserAlt />
+          <div >
+            {currentUser ? (
+              <img
+                src={currentUser.profilePicture}
+                alt="profile-picture"
+                className="rounded-full self-center object-cover h-8 w-8"
+              />
+            ) : (
+              <FaUserAlt className="bg-gray-500  p-2 rounded-full text-white flex " />
+            )}
           </div>
+          {!!currentUser && <div>{currentUser.username}</div>}
         </div>
       </div>
     </nav>
