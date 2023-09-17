@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   currentUser: null,
+  token:null,
   loading: false,
   error: false,
   success: false,
@@ -17,10 +18,13 @@ export const userSlice = createSlice({
       state.error = false;
     },
     signInSuccess: (state, action) => {
-      state.currentUser = action.payload;
+      state.currentUser = action.payload.currentUser;
+      state.token = action.payload.accessToken;
       state.loading = false;
       state.error = false;
       state.success = true;
+      localStorage.setItem("currentUser", JSON.stringify(action.payload.currentUser));
+
     },
     signInFailure: (state, action) => {
       state.errMsg = action.payload;
@@ -51,7 +55,8 @@ export const userSlice = createSlice({
       state.error = false;
     },
     updateUserSuccess: (state, action) => {
-      state.currentUser = action.payload;
+      state.currentUser = action.payload.currentUser;
+      state.token = action.payload.accessToken;
       state.loading = false;
       state.error = false;
       state.success = true;
@@ -74,7 +79,12 @@ export const userSlice = createSlice({
       state.success = false;
       state.error = true;
     },
-    signOut: () => initialState,
+    signOut: () =>{
+
+      localStorage.removeItem("currentUser");
+      return initialState;
+
+    },
     resetMessages: (state) => {
       state.error = false;
     },
@@ -103,5 +113,6 @@ export const showError = (state) => state.user.error;
 export const showErrorMessage = (state) => state.user.errMsg;
 export const showSuccess = (state) => state.user.success;
 export const userDetails = (state) => state.user.currentUser;
+export const userToken = (state) => state.user.token;
 
 export default userSlice.reducer;

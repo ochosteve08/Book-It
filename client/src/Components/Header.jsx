@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { userDetails } from "../features/user/UserSlice";
 
 const Header = () => {
-   const currentUser = useSelector(userDetails);
+  const currentUser = useSelector(userDetails);
   return (
     <nav className="sticky top-0 z-50 bg-white">
       <div className="flex p-3 justify-between items-center">
@@ -31,9 +31,12 @@ const Header = () => {
           </button>
         </div>
 
-        <div className="flex border border-gray-300 shadow-lg shadow-gray-300  rounded-full  px-3 py-2 space-x-3 items-center cursor-pointer overflow-hidden">
+        <Link
+          to={currentUser ? "profile" : "signin"}
+          className="flex border border-gray-300 shadow-lg shadow-gray-300  rounded-full  px-3 py-2 space-x-3 items-center cursor-pointer overflow-hidden"
+        >
           <RxHamburgerMenu className="text-xl" />
-          <div >
+          <div>
             {currentUser ? (
               <img
                 src={currentUser.profilePicture}
@@ -41,11 +44,11 @@ const Header = () => {
                 className="rounded-full self-center object-cover h-8 w-8"
               />
             ) : (
-              <FaUserAlt className="bg-gray-500  p-2 rounded-full text-white flex " />
+              <FaUserAlt className="bg-gray-500  p-1 rounded-full text-white flex text-3xl" />
             )}
           </div>
           {!!currentUser && <div>{currentUser.username}</div>}
-        </div>
+        </Link>
       </div>
     </nav>
   );

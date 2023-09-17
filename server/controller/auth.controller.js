@@ -184,7 +184,8 @@ export const Refresh = (req, res, next) => {
 
   jwt.verify(refreshToken, jwtSecret, async (err, decoded) => {
     try {
-      if (err) return next(errorHandler(403, "Invalid refresh token"));
+      if (err)
+        return next(errorHandler(403, "Authentication error, Kindly login "));
       const validUser = await UserModel.findOne({ username: decoded.username });
       if (!validUser) return next(errorHandler(401, "User not found"));
 
@@ -196,7 +197,7 @@ export const Refresh = (req, res, next) => {
         { expiresIn: "15m" }
       );
       const { password: _, ...userInfo } = validUser._doc;
-      res.json({ ...userInfo, accessToken });
+      res.json({ userInfo, accessToken });
     } catch (error) {
       next(error);
     }

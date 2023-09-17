@@ -32,7 +32,6 @@ const Profile = () => {
   const fileRef = useRef(null);
   const [image, setImage] = useState(undefined);
 
-
   const loading = useSelector(showLoading);
   const error = useSelector(showError);
   const [imagePercent, setImagePercent] = useState(0);
@@ -124,7 +123,7 @@ const Profile = () => {
           // withCredentials: true,
         });
         const data = await res.json();
-          toast.success("user account deleted successfully");
+        toast.success("user account deleted successfully");
 
         if (data.success === false) {
           dispatch(deleteUserFailure(data.message));
@@ -133,7 +132,7 @@ const Profile = () => {
         dispatch(deleteUserSuccess(data));
       } catch (error) {
         console.log(error);
-          toast.error(error.message);
+        toast.error(error.message);
         dispatch(deleteUserFailure(error));
       }
     }
@@ -159,10 +158,10 @@ const Profile = () => {
         // throw new Error("Network response was not ok");
       }
       dispatch(updateUserSuccess(data));
-       toast.success("User info is updated successfully!");
+      toast.success("User info is updated successfully!");
       setUpdateSuccess(true);
     } catch (error) {
-        toast.error(error.message);
+      toast.error(error.message);
       dispatch(updateUserFailure(error));
     }
   };
@@ -175,10 +174,12 @@ const Profile = () => {
         withCredentials: true,
       });
       await response.json();
- toast.success("signout successful");
+
+
+      toast.success("signout successful");
       dispatch(signOut());
     } catch (error) {
-       toast.error(error.message);
+      toast.error(error.message);
       console.log(error);
     }
   };
@@ -187,14 +188,13 @@ const Profile = () => {
     if (imageError) {
       toast.error("Error uploading image");
     } else if (imagePercent > 0 && imagePercent < 100) {
-      toast.dismiss(uploadingToastId); 
+      toast.dismiss(uploadingToastId);
       uploadingToastId = toast.info(`Uploading: ${imagePercent} %`);
     } else if (showUploadSuccess) {
-      toast.dismiss(uploadingToastId); 
+      toast.dismiss(uploadingToastId);
       toast.success("Image uploaded successfully");
     }
   }, [imageError, imagePercent, showUploadSuccess]);
-
 
   return (
     <div className="p-3 max-w-lg mx-auto">
