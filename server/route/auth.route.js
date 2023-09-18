@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post("/signup", Signup);
 router.post("/signin",loginLimiter, logResponseCookies, SignIn);
-router.post("/refresh",Refresh)
+router.get("/refresh",Refresh)
 router.post("/google", Google);
 router.post("/signout", logResponseCookies, signout);
 

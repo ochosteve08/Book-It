@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   currentUser: null,
-  token:null,
+  token: null,
   loading: false,
   error: false,
   success: false,
@@ -18,13 +18,16 @@ export const userSlice = createSlice({
       state.error = false;
     },
     signInSuccess: (state, action) => {
-      state.currentUser = action.payload.currentUser;
-      state.token = action.payload.accessToken;
+      
+      const { accessToken, User } = action.payload;
+      state.currentUser = User;
+    
+
+      state.token = accessToken;
       state.loading = false;
       state.error = false;
       state.success = true;
-      localStorage.setItem("currentUser", JSON.stringify(action.payload.currentUser));
-
+      // localStorage.setItem("currentUser", JSON.stringify(currentUser));
     },
     signInFailure: (state, action) => {
       state.errMsg = action.payload;
@@ -79,11 +82,9 @@ export const userSlice = createSlice({
       state.success = false;
       state.error = true;
     },
-    signOut: () =>{
-
+    signOut: () => {
       localStorage.removeItem("currentUser");
       return initialState;
-
     },
     resetMessages: (state) => {
       state.error = false;
@@ -105,7 +106,7 @@ export const {
   resetMessages,
   registerFailure,
   registerStart,
-  registerSuccess
+  registerSuccess,
 } = userSlice.actions;
 
 export const showLoading = (state) => state.user.loading;

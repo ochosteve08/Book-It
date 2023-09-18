@@ -39,7 +39,7 @@ export const SignIn = async (req, res, next) => {
         id: validUser._id,
       },
       jwtSecret,
-      { expiresIn: "15m" }
+      { expiresIn: "5m" }
     );
 
     const refreshToken = jwt.sign(
@@ -63,7 +63,7 @@ export const SignIn = async (req, res, next) => {
       secure: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
-    return res.status(200).json({ ...userInfo, accessToken });
+    return res.status(200).json({ User, accessToken });
   } catch (error) {
     next(error);
   }
@@ -84,7 +84,7 @@ export const Google = async (req, res, next) => {
         },
         jwtSecret,
         {
-          expiresIn: "15m",
+          expiresIn: "5m",
         }
       );
       const refreshToken = jwt.sign(
@@ -106,7 +106,7 @@ export const Google = async (req, res, next) => {
         secure: true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
-      res.json({ ...userInfo, accessToken });
+      res.json({ userInfo, accessToken });
     } else {
       const generatedPassword =
         Math.random().toString(36).slice(-8) +
@@ -149,7 +149,7 @@ export const Google = async (req, res, next) => {
         secure: true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
-      res.json({ ...userInfo, accessToken });
+      res.json({User, accessToken });
     }
   } catch (error) {
     next(error);
@@ -177,10 +177,11 @@ export const signout = (req, res, next) => {
 
 export const Refresh = (req, res, next) => {
   const cookies = req.cookies;
-
+console.log(cookies)
   if (!cookies?.refresh_token)
     return next(errorHandler(401, "invalid credentials"));
   const refreshToken = cookies.refresh_token;
+ 
 
   jwt.verify(refreshToken, jwtSecret, async (err, decoded) => {
     try {
@@ -194,10 +195,11 @@ export const Refresh = (req, res, next) => {
           id: validUser._id,
         },
         jwtSecret,
-        { expiresIn: "15m" }
+        { expiresIn: "5m" }
       );
+     
       const { password: _, ...userInfo } = validUser._doc;
-      res.json({ userInfo, accessToken });
+      res.json({ User, accessToken });
     } catch (error) {
       next(error);
     }

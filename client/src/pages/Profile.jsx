@@ -32,6 +32,8 @@ const Profile = () => {
   const fileRef = useRef(null);
   const [image, setImage] = useState(undefined);
 
+ 
+
   const loading = useSelector(showLoading);
   const error = useSelector(showError);
   const [imagePercent, setImagePercent] = useState(0);
