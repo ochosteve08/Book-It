@@ -32,6 +32,7 @@ const Oauth = () => {
         const data = await response.json();
 
         dispatch(signInSuccess(data));
+
         toast.success("Login successful");
         navigate("/profile");
       }
