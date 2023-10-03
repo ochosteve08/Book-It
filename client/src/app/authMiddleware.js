@@ -2,6 +2,7 @@ import { BASE_URL } from "../../Config";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import { signInFailure, signInSuccess } from "../features/user/UserSlice.jsx";
+import apiInstance from "./api/axios";
 
 
 export const authMiddleware = (store) => (next) => async (action) => {
@@ -45,3 +46,20 @@ export const authMiddleware = (store) => (next) => async (action) => {
     return next(action);
   }
 };
+
+
+
+
+
+const Middleware = async () => {
+   const response = await apiInstance.get("/auth/refresh", {
+          withCredentials: true,
+        });
+    const result = await response.data;
+    console.log(result)
+  return (
+    <div>authMiddleware</div>
+  )
+}
+
+export default Middleware
