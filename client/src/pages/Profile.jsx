@@ -23,7 +23,8 @@ import {
 } from "../features/user/UserSlice";
 import { BASE_URL } from "../app/api/axios";
 import { toast } from "react-toastify";
-// import {  NavLink } from "react-router-dom";
+import { FaUserAlt } from "react-icons/fa";
+
 
 let uploadingToastId = null;
 
@@ -198,8 +199,6 @@ const Profile = () => {
 
   return (
     <>
-    
-
       <div className="p-3 max-w-lg mx-auto">
         <form className="flex flex-col space-y-6" onSubmit={handleUpdate}>
           <input
@@ -210,15 +209,19 @@ const Profile = () => {
             onChange={(event) => setImage(event.target.files[0])}
           />
 
-          <img
-            src={
-              formData.profilePicture
-                ? formData.profilePicture
-                : currentUser?.profilePicture
-            }
-            alt="profile-picture"
-            className="rounded-full self-center object-cover h-20 w-20"
-          />
+          {currentUser ? (
+            <img
+              src={
+                formData.profilePicture
+                  ? formData.profilePicture
+                  : currentUser?.profilePicture
+              }
+              alt="profile-picture"
+              className="rounded-full self-center object-cover h-20 w-20"
+            />
+          ) : (
+            <FaUserAlt className="bg-gray-500 rounded-full self-center object-cover h-20 w-20 p-2 text-white" />
+          )}
 
           {/* <p className="text-sm self-center">
           {imageError ? (

@@ -1,26 +1,44 @@
-import { Outlet,NavLink } from "react-router-dom"
+import { Outlet, NavLink, useLocation } from "react-router-dom";
 
 const ProfileLayout = () => {
+  const location = useLocation();
+  const pathMatchRoute = (route) => {
+    if (route === location.pathname) {
+      return true;
+    } else return false;
+  };
+  console.log(location.pathname);
+  // const isProfileActive = useRouteMatch({ path: "/profile", exact: true });
   return (
     <div>
       <nav className="flex p-3 w-full my-8 gap-4 justify-center">
         <NavLink
           to="/profile"
-          activeClassName="bg-primary text-white"
-          className="bg-gray-300 rounded-full py-2 px-6 bg-primary text-white"
+          className={({ isActive }) =>
+            isActive && pathMatchRoute("/profile")
+              ? "rounded-full py-2 px-6 bg-primary text-white"
+              : "rounded-full py-2 px-6 bg-gray-400 text-white"
+          }
         >
           My Profile
         </NavLink>
         <NavLink
-          to="/profile/bookings"
-        
-          className="bg-gray-300 rounded-full py-2 px-6  bg-primary text-white"
+          to="bookings"
+          className={({ isActive }) =>
+            isActive && pathMatchRoute("/profile/bookings")
+              ? "rounded-full py-2 px-6 bg-primary text-white"
+              : "rounded-full py-2 px-6 bg-gray-400 text-white"
+          }
         >
           My Bookings
         </NavLink>
         <NavLink
-          to="/profile/places"
-          className="bg-gray-300 rounded-full py-2 px-6  bg-primary text-white"
+          to="places"
+          className={({ isActive }) =>
+            isActive && pathMatchRoute("/profile/places")
+              ? "rounded-full py-2 px-6 bg-primary text-white"
+              : "rounded-full py-2 px-6 bg-gray-400 text-white"
+          }
         >
           My Accommodations
         </NavLink>
@@ -28,6 +46,6 @@ const ProfileLayout = () => {
       <Outlet />
     </div>
   );
-}
+};
 
-export default ProfileLayout
+export default ProfileLayout;
