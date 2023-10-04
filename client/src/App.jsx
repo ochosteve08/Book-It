@@ -5,12 +5,13 @@ import Profile from "./pages/Profile";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 // import PrivateRoute from "./Components/PrivateRoute";
-import Layout from "./Components/Layout";
+import Layout from "./layout/Layout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 // import PersistLogin from "./features/user/PersistLogin";
 import Bookings from "./pages/Bookings";
 import Places from "./pages/Places";
+import ProfileLayout from "./layout/ProfileLayout";
 
 function App() {
   return (
@@ -24,7 +25,7 @@ function App() {
 
           {/* <Route element={<PersistLogin />}> */}
           {/* <Route element={<PrivateRoute />}> */}
-          <Route path="profile">
+          <Route path="profile" element={<ProfileLayout />}>
             <Route index element={<Profile />} />
             <Route path="bookings" element={<Bookings />} />
             <Route path="places" element={<Places />} />

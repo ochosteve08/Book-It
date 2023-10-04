@@ -23,7 +23,7 @@ import {
 } from "../features/user/UserSlice";
 import { BASE_URL } from "../app/api/axios";
 import { toast } from "react-toastify";
-import {  NavLink } from "react-router-dom";
+// import {  NavLink } from "react-router-dom";
 
 let uploadingToastId = null;
 
@@ -198,29 +198,7 @@ const Profile = () => {
 
   return (
     <>
-      <nav className="flex p-3 w-full my-8 gap-4 justify-center">
-        <NavLink
-          to="/profile"
-          activeClassName="bg-primary text-white"
-          className="rounded-full py-2 px-6"
-        >
-          My Profile
-        </NavLink>
-        <NavLink
-          to="/profile/bookings"
-          activeClassName="bg-primary text-white"
-          className="bg-gray-300 rounded-full py-2 px-6"
-        >
-          My Bookings
-        </NavLink>
-        <NavLink
-          to="/profile/places"
-          activeClassName="bg-primary text-white"
-          className="bg-gray-300 rounded-full py-2 px-6"
-        >
-          My Accommodations
-        </NavLink>
-      </nav>
+    
 
       <div className="p-3 max-w-lg mx-auto">
         <form className="flex flex-col space-y-6" onSubmit={handleUpdate}>
