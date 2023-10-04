@@ -1,5 +1,5 @@
 import { Outlet, Navigate } from "react-router-dom";
-import useRefresh from "../../hooks/usePersist";
+import useRefresh from "../../hooks/useRefresh";
 import usePersist from "../../hooks/usePersist";
 import { useState, useEffect } from "react";
 import { userToken } from "./UserSlice";
@@ -27,7 +27,7 @@ const PersistLogin = () => {
   return (
     <>
       {!token ? (
-        <Navigate to="/login"  />
+        <Navigate to="/login" />
       ) : !persist ? (
         <Outlet />
       ) : isLoading ? (

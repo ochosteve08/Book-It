@@ -27,7 +27,7 @@ export const SignIn = async (req, res, next) => {
     const { email, password } = req.body;
     const User = await UserModel.findOne({ email });
     if (!User) {
-      return next(errorHandler(401, "user not found"));
+      return next(errorHandler(401, "incorrect credentials"));
     }
 
     const match = bcryptjs.compareSync(password, User.password);
@@ -169,12 +169,14 @@ export const Refresh = (req, res, next) => {
   if (!cookies?.refresh_token)
     return next(errorHandler(401, "invalid credentials"));
   const refreshToken = cookies.refresh_token;
+  console.log(cookies?.refresh_token);
 
   jwt.verify(refreshToken, jwtSecret, async (err, decoded) => {
     try {
       if (err)
         return next(errorHandler(403, "Authentication error, Kindly login "));
-      const User = await UserModel.findOne({ _id: decoded._id });
+      const User = await UserModel.findOne({ _id: decoded.id });
+     
       if (!User) return next(errorHandler(401, "User not found"));
       const { password: _, ...currentUser } = User._doc;
       const accessToken = jwt.sign(
@@ -184,6 +186,7 @@ export const Refresh = (req, res, next) => {
         jwtSecret,
         { expiresIn: "15m" }
       );
+    
 
       res.json({ currentUser, accessToken });
     } catch (error) {

@@ -4,7 +4,7 @@ import { FaSearch } from "react-icons/fa";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { FaUserAlt } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { userDetails } from "../features/user/UserSlice";
+import { userDetails } from "../features/auth/UserSlice";
 
 const Header = () => {
   const currentUser = useSelector(userDetails);

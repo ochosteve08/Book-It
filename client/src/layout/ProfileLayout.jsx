@@ -7,8 +7,7 @@ const ProfileLayout = () => {
       return true;
     } else return false;
   };
-  console.log(location.pathname);
-  // const isProfileActive = useRouteMatch({ path: "/profile", exact: true });
+ 
   return (
     <div>
       <nav className="flex p-3 w-full my-8 gap-4 justify-center">
@@ -33,9 +32,9 @@ const ProfileLayout = () => {
           My Bookings
         </NavLink>
         <NavLink
-          to="places"
+          to="apartment"
           className={({ isActive }) =>
-            isActive && pathMatchRoute("/profile/places")
+            isActive && pathMatchRoute("/profile/apartment")
               ? "rounded-full py-2 px-6 bg-primary text-white"
               : "rounded-full py-2 px-6 bg-gray-400 text-white"
           }

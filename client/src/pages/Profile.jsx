@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useSelector, useDispatch } from "react-redux";
-import { userDetails } from "../features/user/UserSlice";
+import { userDetails } from "../features/auth/UserSlice";
 import { useState, useRef, useEffect } from "react";
 import app from "../Firebase";
 import {
@@ -20,11 +20,10 @@ import {
   updateUserSuccess,
   resetMessages,
   showError,
-} from "../features/user/UserSlice";
+} from "../features/auth/UserSlice";
 import { BASE_URL } from "../app/api/axios";
 import { toast } from "react-toastify";
 import { FaUserAlt } from "react-icons/fa";
-
 
 let uploadingToastId = null;
 
@@ -272,14 +271,17 @@ const Profile = () => {
             {loading ? "UPDATE..." : "UPDATE"}
           </button>
         </form>
-        <div className="flex justify-between text-red-600 my-3 font-semibold">
+        <div className="flex justify-between text-red-600 my-6 font-semibold">
           <span
             onClick={handleDeleteAccount}
-            className="text-red-700 cursor-pointer"
+            className="bg-primary text-white cursor-pointer py-2 px-3 rounded-full hover:opacity-90  "
           >
             Delete Account
           </span>
-          <span onClick={handleSignOut} className="text-red-700 cursor-pointer">
+          <span
+            onClick={handleSignOut}
+            className="bg-primary text-white  py-2 px-3 rounded-full cursor-pointer hover:opacity-90  "
+          >
             Sign Out
           </span>
         </div>
