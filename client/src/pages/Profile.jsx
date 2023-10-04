@@ -21,8 +21,9 @@ import {
   resetMessages,
   showError,
 } from "../features/user/UserSlice";
-import { BASE_URL } from "../../Config";
+import { BASE_URL } from "../app/api/axios";
 import { toast } from "react-toastify";
+import {  NavLink } from "react-router-dom";
 
 let uploadingToastId = null;
 
@@ -32,8 +33,6 @@ const Profile = () => {
   const fileRef = useRef(null);
   const [image, setImage] = useState(undefined);
 
- 
-
   const loading = useSelector(showLoading);
   const error = useSelector(showError);
   const [imagePercent, setImagePercent] = useState(0);
@@ -42,9 +41,9 @@ const Profile = () => {
   const [showUploadSuccess, setShowUploadSuccess] = useState(false);
 
   const [formData, setFormData] = useState({
-    username: currentUser.username,
-    email: currentUser.email,
-    profilePicture: currentUser.profilePicture,
+    username: currentUser?.username,
+    email: currentUser?.email,
+    profilePicture: currentUser?.profilePicture,
   });
 
   useEffect(() => {
@@ -116,7 +115,7 @@ const Profile = () => {
     ) {
       try {
         dispatch(deleteUserStart());
-        const res = await fetch(`${BASE_URL}/user/${currentUser._id}`, {
+        const res = await fetch(`${BASE_URL}/user/${currentUser?._id}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
@@ -144,7 +143,7 @@ const Profile = () => {
     event.preventDefault();
     try {
       dispatch(updateUserStart());
-      const res = await fetch(`${BASE_URL}/user/${currentUser._id}`, {
+      const res = await fetch(`${BASE_URL}/user/${currentUser?._id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -177,7 +176,6 @@ const Profile = () => {
       });
       await response.json();
 
-
       toast.success("signout successful");
       dispatch(signOut());
     } catch (error) {
@@ -199,28 +197,52 @@ const Profile = () => {
   }, [imageError, imagePercent, showUploadSuccess]);
 
   return (
-    <div className="p-3 max-w-lg mx-auto">
-      <h1 className="text-3xl text-center font-bold my-6">Profile</h1>
-      <form className="flex flex-col space-y-6" onSubmit={handleUpdate}>
-        <input
-          type="file"
-          ref={fileRef}
-          accept="image/*"
-          hidden
-          onChange={(event) => setImage(event.target.files[0])}
-        />
+    <>
+      <nav className="flex p-3 w-full my-8 gap-4 justify-center">
+        <NavLink
+          to="/profile"
+          activeClassName="bg-primary text-white"
+          className="rounded-full py-2 px-6"
+        >
+          My Profile
+        </NavLink>
+        <NavLink
+          to="/profile/bookings"
+          activeClassName="bg-primary text-white"
+          className="bg-gray-300 rounded-full py-2 px-6"
+        >
+          My Bookings
+        </NavLink>
+        <NavLink
+          to="/profile/places"
+          activeClassName="bg-primary text-white"
+          className="bg-gray-300 rounded-full py-2 px-6"
+        >
+          My Accommodations
+        </NavLink>
+      </nav>
 
-        <img
-          src={
-            formData.profilePicture
-              ? formData.profilePicture
-              : currentUser.profilePicture
-          }
-          alt="profile-picture"
-          className="rounded-full self-center object-cover h-20 w-20"
-        />
+      <div className="p-3 max-w-lg mx-auto">
+        <form className="flex flex-col space-y-6" onSubmit={handleUpdate}>
+          <input
+            type="file"
+            ref={fileRef}
+            accept="image/*"
+            hidden
+            onChange={(event) => setImage(event.target.files[0])}
+          />
 
-        {/* <p className="text-sm self-center">
+          <img
+            src={
+              formData.profilePicture
+                ? formData.profilePicture
+                : currentUser?.profilePicture
+            }
+            alt="profile-picture"
+            className="rounded-full self-center object-cover h-20 w-20"
+          />
+
+          {/* <p className="text-sm self-center">
           {imageError ? (
             <span className="text-red-700">Error uploading image</span>
           ) : imagePercent > 0 && imagePercent < 100 ? (
@@ -231,62 +253,63 @@ const Profile = () => {
             ""
           )}
         </p> */}
-        <div
-          className="text-red-800 self-center cursor-pointer hover:underline"
-          onClick={() => fileRef.current.click()}
-        >
-          update profile picture
-        </div>
-        <input
-          type="text"
-          id="username"
-          className="bg-slate-200  rounded-full py-2 px-4 outline-blue-200 hover:outline-blue-500"
-          placeholder="username"
-          defaultValue={currentUser.username}
-          onChange={handleChange}
-        />
-        <input
-          type="email"
-          id="email"
-          defaultValue={currentUser.email}
-          className="bg-slate-200  rounded-full py-2 px-3 outline-blue-200 hover:outline-blue-500"
-          placeholder="email"
-          onChange={handleChange}
-          disabled
-        />
-        <input
-          type="password"
-          id="password"
-          className="bg-slate-200  rounded-full py-2 px-3 outline-blue-200 hover:outline-blue-500"
-          placeholder="password"
-          onChange={handleChange}
-        />
+          <div
+            className="text-red-800 self-center cursor-pointer hover:underline"
+            onClick={() => fileRef.current.click()}
+          >
+            update profile picture
+          </div>
+          <input
+            type="text"
+            id="username"
+            className="bg-slate-200  rounded-full py-2 px-4 outline-blue-200 hover:outline-blue-500"
+            placeholder="username"
+            defaultValue={currentUser?.username}
+            onChange={handleChange}
+          />
+          <input
+            type="email"
+            id="email"
+            defaultValue={currentUser?.email}
+            className="bg-slate-200  rounded-full py-2 px-3 outline-blue-200 hover:outline-blue-500"
+            placeholder="email"
+            onChange={handleChange}
+            disabled
+          />
+          <input
+            type="password"
+            id="password"
+            className="bg-slate-200  rounded-full py-2 px-3 outline-blue-200 hover:outline-blue-500"
+            placeholder="password"
+            onChange={handleChange}
+          />
 
-        <button
-          disabled={loading}
-          className="bg-primary p-2 uppercase text-white rounded-full font-semibold disabled:opacity-70 hover:opacity-90  "
-        >
-          {loading ? "UPDATE..." : "UPDATE"}
-        </button>
-      </form>
-      <div className="flex justify-between text-red-600 my-3 font-semibold">
-        <span
-          onClick={handleDeleteAccount}
-          className="text-red-700 cursor-pointer"
-        >
-          Delete Account
-        </span>
-        <span onClick={handleSignOut} className="text-red-700 cursor-pointer">
-          Sign Out
-        </span>
+          <button
+            disabled={loading}
+            className="bg-primary p-2 uppercase text-white rounded-full font-semibold disabled:opacity-70 hover:opacity-90  "
+          >
+            {loading ? "UPDATE..." : "UPDATE"}
+          </button>
+        </form>
+        <div className="flex justify-between text-red-600 my-3 font-semibold">
+          <span
+            onClick={handleDeleteAccount}
+            className="text-red-700 cursor-pointer"
+          >
+            Delete Account
+          </span>
+          <span onClick={handleSignOut} className="text-red-700 cursor-pointer">
+            Sign Out
+          </span>
+        </div>
+        <div>
+          {error && <p className="text-red-700 mt-5">Something went wrong!</p>}
+          {updateSuccess && (
+            <p className="text-green-700 mt-5">User is updated successfully!</p>
+          )}
+        </div>
       </div>
-      <div>
-        {error && <p className="text-red-700 mt-5">Something went wrong!</p>}
-        {updateSuccess && (
-          <p className="text-green-700 mt-5">User is updated successfully!</p>
-        )}
-      </div>
-    </div>
+    </>
   );
 };
 

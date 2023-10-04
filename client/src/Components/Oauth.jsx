@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { signInSuccess } from "../features/user/UserSlice";
 import { FcGoogle } from "react-icons/fc";
-import { BASE_URL } from "../../Config";
+import { BASE_URL } from "../app/api/axios";
 import { toast } from "react-toastify";
 
 const Oauth = () => {
