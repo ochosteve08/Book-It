@@ -18,16 +18,12 @@ export const userSlice = createSlice({
       state.error = false;
     },
     signInSuccess: (state, action) => {
-      
-      const { accessToken, User } = action.payload;
-      state.currentUser = User;
-    
-
+      const { accessToken, currentUser } = action.payload;
+      state.currentUser = currentUser;
       state.token = accessToken;
       state.loading = false;
       state.error = false;
       state.success = true;
-      // localStorage.setItem("currentUser", JSON.stringify(currentUser));
     },
     signInFailure: (state, action) => {
       state.errMsg = action.payload;

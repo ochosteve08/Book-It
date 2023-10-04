@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Oauth from "../Components/Oauth";
-import { BASE_URL } from "../../Config";
+import { BASE_URL } from "../app/api/axios";
 import {
   registerFailure,
   registerStart,
@@ -31,7 +31,7 @@ const SignUp = () => {
 
     try {
       dispatch(registerStart());
-      const {data} = await axios.post(`${BASE_URL}/auth/signup`, formData, {
+      const { data } = await axios.post(`${BASE_URL}/auth/signup`, formData, {
         headers: {
           "Content-Type": "application/json",
         },

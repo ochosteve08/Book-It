@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {
   signInFailure,
@@ -10,12 +10,16 @@ import {
 } from "../features/user/UserSlice";
 import { useDispatch, useSelector } from "react-redux";
 import Oauth from "../Components/Oauth";
-import { BASE_URL } from "../../Config";
+import { BASE_URL } from "../app/api/axios";
 import { toast } from "react-toastify";
+import usePersist from "../hooks/usePersist";
 
 const SignIn = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+  const [persist, setPersist] = usePersist();
 
   const [formData, setFormData] = useState({});
   const loading = useSelector(showLoading);
@@ -56,7 +60,7 @@ const SignIn = () => {
 
         dispatch(signInSuccess(data));
         toast.success("Login successful");
-        navigate("/profile");
+        navigate(from, { replace: true });
         setFormData({});
       }
     } catch (error) {
@@ -82,6 +86,8 @@ const SignIn = () => {
       return () => clearTimeout(timer);
     }
   }, [error]);
+
+  const handleToggle = () => setPersist((prev) => !prev);
 
   return (
     <div className="p-3 max-w-lg mx-auto">
@@ -110,6 +116,16 @@ const SignIn = () => {
           {loading ? "Logging...." : "Login"}
         </button>
         <Oauth />
+        <label htmlFor="persist" className="flex w-[100vw] items-center gap-4">
+          <input
+            type="checkbox"
+            className="w-5 h-5 cursor-pointer"
+            id="persist"
+            onChange={handleToggle}
+            checked={persist}
+          />
+          Keep me signed in
+        </label>
       </form>
       <div className="flex space-x-3 my-3">
         <p>Don&#39;t Have An Account yet?</p>

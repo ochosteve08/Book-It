@@ -51,15 +51,15 @@ export const SignIn = async (req, res, next) => {
       { expiresIn: "1d" }
     );
 
-    const { password: _, ...userInfo } = validUser._doc;
+    const { password: _, ...currentUser } = User._doc;
 
     res.cookie("refresh_token", refreshToken, {
       httpOnly: true,
       sameSite: "None",
       secure: true,
-      maxAge:  24 * 60 * 60 * 1000,
+      maxAge: 24 * 60 * 60 * 1000,
     });
-    return res.status(200).json({ userInfo, accessToken });
+    return res.status(200).json({ currentUser, accessToken });
   } catch (error) {
     next(error);
   }
@@ -85,17 +85,17 @@ export const Google = async (req, res, next) => {
         },
         jwtSecret,
         {
-          expiresIn: "7d",
+          expiresIn: "1d",
         }
       );
-      const { password: _, ...userInfo } = User._doc;
+      const { password: _, ...currentUser } = User._doc;
       res.cookie("refresh_token", refreshToken, {
         httpOnly: true,
         sameSite: "None",
         secure: true,
-        maxAge: 7 * 24 * 60 * 60 * 1000,
+        maxAge: 24 * 60 * 60 * 1000,
       });
-      res.json({ userInfo, accessToken });
+      res.json({ currentUser, accessToken });
     } else {
       const generatedPassword =
         Math.random().toString(36).slice(-8) +
@@ -125,7 +125,7 @@ export const Google = async (req, res, next) => {
         },
         jwtSecret,
         {
-          expiresIn: "7d",
+          expiresIn: "1d",
         }
       );
       const { password: _, ...userInfo } = newUser._doc;
@@ -133,7 +133,7 @@ export const Google = async (req, res, next) => {
         httpOnly: true,
         sameSite: "None",
         secure: true,
-        maxAge: 7 * 24 * 60 * 60 * 1000,
+        maxAge: 24 * 60 * 60 * 1000,
       });
       res.json({ userInfo, accessToken });
     }
@@ -165,7 +165,7 @@ export const signout = (req, res, next) => {
 
 export const Refresh = (req, res, next) => {
   const cookies = req.cookies;
-  console.log(cookies);
+
   if (!cookies?.refresh_token)
     return next(errorHandler(401, "invalid credentials"));
   const refreshToken = cookies.refresh_token;
@@ -174,18 +174,18 @@ export const Refresh = (req, res, next) => {
     try {
       if (err)
         return next(errorHandler(403, "Authentication error, Kindly login "));
-      const validUser = await UserModel.findOne({ _id: decoded._id });
-      if (!validUser) return next(errorHandler(401, "User not found"));
-
+      const User = await UserModel.findOne({ _id: decoded._id });
+      if (!User) return next(errorHandler(401, "User not found"));
+      const { password: _, ...currentUser } = User._doc;
       const accessToken = jwt.sign(
         {
-          id: validUser._id,
+          id: User._id,
         },
         jwtSecret,
         { expiresIn: "15m" }
       );
 
-      res.json({ accessToken });
+      res.json({ currentUser, accessToken });
     } catch (error) {
       next(error);
     }

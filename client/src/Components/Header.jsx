@@ -32,14 +32,14 @@ const Header = () => {
         </div>
 
         <Link
-          to={currentUser ? "profile" : "signin"}
+          to={!currentUser ? "profile" : "signin"}
           className="flex border border-gray-300 shadow-lg shadow-gray-300  rounded-full  px-3 py-2 space-x-3 items-center cursor-pointer overflow-hidden"
         >
           <RxHamburgerMenu className="text-xl" />
           <div>
             {currentUser ? (
               <img
-                src={currentUser.profilePicture}
+                src={currentUser?.profilePicture}
                 alt="profile-picture"
                 className="rounded-full self-center object-cover h-8 w-8"
               />
@@ -47,7 +47,7 @@ const Header = () => {
               <FaUserAlt className="bg-gray-500  p-1 rounded-full text-white flex text-3xl" />
             )}
           </div>
-          {!!currentUser && <div>{currentUser.username}</div>}
+          {!currentUser && <div>{currentUser?.username}</div>}
         </Link>
       </div>
     </nav>
