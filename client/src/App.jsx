@@ -2,16 +2,17 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Profile from "./pages/Profile";
-import SignIn from "./pages/SignIn";
-import SignUp from "./pages/SignUp";
+import SignIn from "./features/auth/SignIn";
+import SignUp from "./features/auth/SignUp";
 // import PrivateRoute from "./Components/PrivateRoute";
 import Layout from "./layout/Layout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import PersistLogin from "./features/user/PersistLogin";
+// import PersistLogin from "./features/auth/PersistLogin";
 import Bookings from "./pages/Bookings";
-import Places from "./pages/Places";
+import Apartment from "./pages/Apartment";
 import ProfileLayout from "./layout/ProfileLayout";
+import ApartmentLayout from "./layout/ApartmentLayout";
 
 function App() {
   return (
@@ -23,16 +24,18 @@ function App() {
           <Route path="signin" element={<SignIn />} />
           <Route path="signup" element={<SignUp />} />
 
-          {/* <Route element={<PersistLogin />}> */}
-          {/* <Route element={<PrivateRoute />}> */}
+          {/* <Route element={<PersistLogin />}>
+              <Route element={<PrivateRoute />}> */}
           <Route path="profile" element={<ProfileLayout />}>
             <Route index element={<Profile />} />
             <Route path="bookings" element={<Bookings />} />
-            <Route path="places" element={<Places />} />
+            <Route path="apartment" element={<ApartmentLayout />}>
+              <Route index element={<Apartment />} />
+            </Route>
           </Route>
         </Route>
-        {/* </Route> */}
-        {/* </Route> */}
+        {/* </Route>
+          </Route> */}
       </Routes>
       <ToastContainer
         position="bottom-right"

@@ -7,12 +7,12 @@ import {
   showError,
   showLoading,
   showErrorMessage,
-} from "../features/user/UserSlice";
+} from "./UserSlice";
 import { useDispatch, useSelector } from "react-redux";
-import Oauth from "../Components/Oauth";
-import { BASE_URL } from "../app/api/axios";
+import Oauth from "../../Components/Oauth";
+import { BASE_URL } from "../../app/api/axios";
 import { toast } from "react-toastify";
-import usePersist from "../hooks/usePersist";
+import usePersist from "../../hooks/usePersist";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -90,7 +90,7 @@ const SignIn = () => {
   const handleToggle = () => setPersist((prev) => !prev);
 
   return (
-    <div className="p-3 max-w-lg mx-auto">
+    <div className="p-3 max-w-lg mx-auto ">
       <h1 className="text-3xl text-center font-bold my-6">Login</h1>
       <form className="flex flex-col space-y-6" onSubmit={handleSubmit}>
         <input

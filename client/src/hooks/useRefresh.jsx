@@ -1,6 +1,6 @@
 import axios from "../app/api/axios";
 import { useDispatch } from "react-redux";
-import { signInFailure, signInSuccess } from "../features/user/UserSlice";
+import { signInFailure, signInSuccess } from "../features/auth/UserSlice";
 
 const useRefresh = () => {
   const dispatch = useDispatch();
