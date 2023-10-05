@@ -9,10 +9,11 @@ import Layout from "./layout/Layout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 // import PersistLogin from "./features/auth/PersistLogin";
-import Bookings from "./pages/Bookings";
-import Apartment from "./pages/Apartment";
+import Bookings from "./features/booking/Bookings";
+import Apartment from "./features/apartment/Apartment";
 import ProfileLayout from "./layout/ProfileLayout";
 import ApartmentLayout from "./layout/ApartmentLayout";
+import NewApartment from "./features/apartment/NewApartment";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
             <Route path="bookings" element={<Bookings />} />
             <Route path="apartment" element={<ApartmentLayout />}>
               <Route index element={<Apartment />} />
+              <Route path="new" element={<NewApartment />} />
             </Route>
           </Route>
         </Route>
