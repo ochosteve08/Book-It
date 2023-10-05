@@ -251,7 +251,7 @@ const Profile = () => {
             type="email"
             id="email"
             defaultValue={currentUser?.email}
-            className="bg-slate-200  rounded-full py-2 px-3 outline-blue-200 hover:outline-blue-500"
+            className=" bg-slate-200  rounded-full py-2 px-4 outline-primary hover:outline-primary/50"
             placeholder="email"
             onChange={handleChange}
             disabled
