@@ -1,47 +1,22 @@
 import cloudinary from "cloudinary";
 import multer from "multer";
-
-// const checkFileType = function (file, cb) {
-//   const fileTypes = /jpeg|jpg|png|gif|svg|ico/;
-
-//   const extName = fileTypes.test(path.extname(file.originalname).toLowerCase());
-//   const mimeType = fileTypes.test(file.mimeType);
-
-//   if (mimeType && extName) {
-//     return cb(null, true);
-//   } else {
-//     cb("Error: you can only upload images!!!");
-//   }
-// };
-
-// const storageEngine = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, "/images");
-//   },
-//   filename: (req, file, cb) => {
-//     cb(null, `${Date.now()}--${file.originalname}`);
-//   },
-// });
-
-// initializing multer
-// const upload = multer({
-//   storage: storageEngine,
-//   limits: { fileSize: 1000000 },
-//   fileFilter: (req, file, cb) => {
-//     checkFileType(file, cb);
-//   },
-// });
-
 const memoryStorage = multer.memoryStorage();
+import {
+  CLOUDINARY_API_KEY,
+  CLOUDINARY_CLOUD_NAME,
+  CLOUDINARY_API_SECRET,
+} from "../config/env.js";
 
 export const upload = multer({
   storage: memoryStorage,
 });
 
+
+
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
+  cloud_name: CLOUDINARY_CLOUD_NAME,
+  api_key: CLOUDINARY_API_KEY,
+  api_secret:CLOUDINARY_API_SECRET,
 });
 
 export const uploadToCloudinary = async (fileString, format) => {

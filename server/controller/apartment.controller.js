@@ -1,7 +1,7 @@
 import { addApartment } from "../services/apartment.service.js";
 import { bufferToDataURI } from "../utils/file.js";
 import { uploadToCloudinary } from "../utils/cloudinary.js";
-import { errorHandler } from "../utils/error.js";
+import { success, error } from "../lib-handler/index.js";
 
 export const createApartment = async (req, res, next) => {
   try {
@@ -10,12 +10,16 @@ export const createApartment = async (req, res, next) => {
       title,
       address,
       description,
-      perks,
       extraInfo,
+      perks,
       checkIn,
       checkOut,
       maxGuests,
     } = req.body;
+
+  const parsedMaxGuests = Number(maxGuests);
+  const parsedPerks = perks[0].split(",");
+
 
     let secure_urls = [];
     for (let file of files) {
@@ -24,25 +28,44 @@ export const createApartment = async (req, res, next) => {
       const imageDetails = await uploadToCloudinary(base64, fileFormat);
 
       if (!imageDetails) {
-        return next(errorHandler(412, "Server Issue! failed to upload"));
+        throw error.throwPreconditionFailed({
+          message: "Server Issue! failed to upload",
+        });
       }
 
       secure_urls.push(imageDetails.secure_url);
+      console.log(secure_urls);
     }
-    const apartment = await addApartment(
+
+    console.log({
       title,
       address,
       description,
-      perks,
+      secure_urls,
+      perks: parsedPerks,
       extraInfo,
       checkIn,
       checkOut,
-      maxGuests,
-      secure_urls
+      maxGuests: parsedMaxGuests,
+
+     
+    });
+
+    const apartment = await addApartment(
+       title,
+      address,
+      description,
+      secure_urls,
+      parsedPerks,
+      extraInfo,
+      checkIn,
+      checkOut,
+      parsedMaxGuests,
     );
     console.log(apartment);
-    return res.status(200).json(apartment);
+
+    return success.handler(apartment, req, res, next);
   } catch (err) {
-    next(error);
+    return error.handler(err, req, res, next);
   }
 };

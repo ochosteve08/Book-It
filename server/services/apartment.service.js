@@ -5,20 +5,20 @@ export const addApartment = async (
   address,
   description,
   secure_urls,
-  perks,
+  parsedPerks,
   extraInfo,
   checkIn,
   checkOut,
-  maxGuests
+  parsedMaxGuests
 ) =>
-  UploadModel.create({
+  ApartmentModel.create({
     title,
     address,
     description,
     photos: secure_urls,
-    perks,
+    perks: parsedPerks,
     extraInfo,
     checkIn,
     checkOut,
-    maxGuests,
+    maxGuests: parsedMaxGuests,
   });
