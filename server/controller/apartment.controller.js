@@ -34,23 +34,10 @@ export const createApartment = async (req, res, next) => {
       }
 
       secure_urls.push(imageDetails.secure_url);
-      console.log(secure_urls);
+      
     }
 
-    console.log({
-      title,
-      address,
-      description,
-      secure_urls,
-      perks: parsedPerks,
-      extraInfo,
-      checkIn,
-      checkOut,
-      maxGuests: parsedMaxGuests,
-
-     
-    });
-
+    
     const apartment = await addApartment(
        title,
       address,
@@ -62,9 +49,9 @@ export const createApartment = async (req, res, next) => {
       checkOut,
       parsedMaxGuests,
     );
-    console.log(apartment);
+   
 
-    return success.handler(apartment, req, res, next);
+    return success.handler({apartment}, req, res, next);
   } catch (err) {
     return error.handler(err, req, res, next);
   }

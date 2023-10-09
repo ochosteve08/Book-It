@@ -2,11 +2,11 @@ import mongoose from "mongoose";
 
 const apartmentSchema = new mongoose.Schema(
   {
-    // userId: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "User",
-    //   required: true,
-    // },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     title: {
       type: String,
       required: true,
@@ -44,10 +44,10 @@ const apartmentSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
-    // maxGuests: {
-    //   type: Number,
-    //   required: true,
-    // },
+    maxGuests: {
+      type: Number,
+      required: true,
+    },
   },
   { timestamps: true }
 );
