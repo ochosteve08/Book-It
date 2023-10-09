@@ -10,6 +10,7 @@ import { logger, logEvents } from "./middleware/logger.js";
 import morgan from "morgan";
 dotenv.config();
 
+
 const app = express();
 const port = 3500;
 app.use(cookieParser());

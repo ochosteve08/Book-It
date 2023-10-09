@@ -1,7 +1,6 @@
-const error = require("./error");
-const success = require("./success");
+import {success} from './success/index.js'
+import {error} from './error/index.js'
 
-module.exports = {
-  error,
-  success,
-};
+
+
+export { success, error };

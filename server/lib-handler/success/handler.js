@@ -1,5 +1,5 @@
-const { getSuccessPayload } = require("../payload");
-const { STATUS } = require("../consts");
+import { STATUS } from "../consts/status.js";
+import { getSuccessPayload } from "../payload/index.js";
 
 /**
  * Handler success and send appropriate response
@@ -9,7 +9,7 @@ const { STATUS } = require("../consts");
  * @returns {*}
  */
 
-module.exports = (data, req, res, next) => {
+export const handler = (data, req, res, next) => {
   const payload = getSuccessPayload(data);
   return res.status(STATUS.OK).send(payload);
 };

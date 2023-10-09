@@ -1,4 +1,4 @@
-const { getErrorPayload } = require("../payload");
+import { getErrorPayload } from "../payload/index.js";
 
 /**
  * handle exceptions and send appropriate response
@@ -8,7 +8,7 @@ const { getErrorPayload } = require("../payload");
  * @returns {*}
  */
 // eslint-disable-next-line no-unused-vars
-module.exports = (err, req, res, next) => {
+export const handler = (err, req, res, next) => {
   const payload = getErrorPayload(err);
   console.error(JSON.stringify(payload, null, 2));
   return res.status(payload.error.code).send(payload);

@@ -1,6 +1,6 @@
-const handler = require("./handler");
-const { getErrorPayload } = require("../payload");
-const {
+import { handler } from "./handler.js";
+import { getErrorPayload } from "../payload/index.js";
+import {
   throwConflict,
   throwCustomValidationError,
   throwNotFound,
@@ -11,9 +11,9 @@ const {
   throwTooManyRequests,
   throwMethodNotAllowed,
   throwTimeOut,
-} = require("./custom-error");
+} from "./custom-error.js";
 
-module.exports = {
+const error = {
   handler,
   throwConflict,
   throwCustomValidationError,
@@ -25,5 +25,7 @@ module.exports = {
   throwTooManyRequests,
   throwMethodNotAllowed,
   throwTimeOut,
- 
 };
+
+
+export {error}

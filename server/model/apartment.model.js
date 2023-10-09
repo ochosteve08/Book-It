@@ -2,11 +2,11 @@ import mongoose from "mongoose";
 
 const apartmentSchema = new mongoose.Schema(
   {
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
+    // userId: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "User",
+    //   required: true,
+    // },
     title: {
       type: String,
       required: true,
@@ -37,17 +37,17 @@ const apartmentSchema = new mongoose.Schema(
       required: true,
     },
     checkIn: {
-      type: Number,
+      type: Date,
       required: true,
     },
     checkOut: {
-      type: Number,
+      type: Date,
       required: true,
     },
-    maxGuests: {
-      type: Number,
-      required: true,
-    },
+    // maxGuests: {
+    //   type: Number,
+    //   required: true,
+    // },
   },
   { timestamps: true }
 );

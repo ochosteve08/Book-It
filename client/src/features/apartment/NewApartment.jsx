@@ -44,6 +44,7 @@ const NewApartment = () => {
     });
   };
 
+  console.log(perks)
   const handleFileChange = (event) => {
     if (photos.length === 6) return;
     const selectedPhotos = Array.from(event.target.files);
@@ -103,14 +104,14 @@ const NewApartment = () => {
       data.append("title", title);
       data.append("address", address);
       data.append("description", description);
-      data.append("perks", perks);
+      data.append("perks[]", perks);
       data.append("checkIn", checkIn);
       data.append("checkOut", checkOut);
       data.append("extraInfo", extraInfo);
       data.append("maxGuests", maxGuests);
 
       photos.forEach((photo, index) => {
-        data.append(`photo_${index}`, photo);
+        data.append("images", photo);
       });
 
       const response = await fetch(`${BASE_URL}/apartment`, {
@@ -367,7 +368,7 @@ const NewApartment = () => {
             </label>
           </div>
         </div>
-        <div>{JSON.stringify(perks)}</div>
+       
         <div className="flex flex-col">
           <label htmlFor="information" className="text-xl font-semibold">
             Extra Information

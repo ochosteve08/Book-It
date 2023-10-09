@@ -2,7 +2,7 @@
  * Throw not found exception
  * @param item
  */
-const throwNotFound = ({
+export const throwNotFound = ({
   item = "Item",
   custom_key,
   message,
@@ -22,7 +22,7 @@ const throwNotFound = ({
  * Throw conflict exception
  * @param message
  */
-const throwConflict = ({
+export const throwConflict = ({
   message = "Conflict",
   custom_key,
   recovery,
@@ -40,7 +40,7 @@ const throwConflict = ({
  * Throw precondition failed  exception
  * @param message
  */
-const throwPreconditionFailed = ({
+export const throwPreconditionFailed = ({
   message = "Precondition failed",
   custom_key,
   recovery,
@@ -61,7 +61,7 @@ const throwPreconditionFailed = ({
  * @param message
  * @param field_name
  */
-const throwCustomValidationError = ({
+export const throwCustomValidationError = ({
   message = "Validation Error",
   custom_key,
   fields,
@@ -81,7 +81,7 @@ const throwCustomValidationError = ({
  * Throw forbidden error
  * @param {message} message
  */
-const throwForbiddenError = ({
+export const throwForbiddenError = ({
   message = "Forbidden",
   custom_key,
   recovery,
@@ -100,7 +100,7 @@ const throwForbiddenError = ({
  * @param {message} message
  */
 
-const throwExpired = ({
+export const throwExpired = ({
   message = "Expired",
   custom_key,
   recovery,
@@ -114,7 +114,7 @@ const throwExpired = ({
   throw err;
 };
 
-const throwReauthentication = ({
+export const throwReauthentication = ({
   message = "Reauthentication",
   custom_key,
   recovery,
@@ -128,7 +128,7 @@ const throwReauthentication = ({
   throw err;
 };
 
-const throwTooManyRequests = ({
+export const throwTooManyRequests = ({
   message = "Too many requests",
   custom_key,
   recovery,
@@ -148,7 +148,7 @@ const throwTooManyRequests = ({
  * Throw method not allowed  exception
  * @param message
  */
-const throwMethodNotAllowed = ({
+export const throwMethodNotAllowed = ({
   message = "Method not allowed",
   custom_key,
   recovery,
@@ -168,7 +168,7 @@ const throwMethodNotAllowed = ({
  * Throw method not allowed  exception
  * @param message
  */
-const throwTimeOut = ({
+export const throwTimeOut = ({
   message = "Time out",
   custom_key,
   recovery,
@@ -182,17 +182,4 @@ const throwTimeOut = ({
   err.message_presets = message_presets;
   err.difference = difference;
   throw err;
-};
-
-module.exports = {
-  throwConflict,
-  throwNotFound,
-  throwPreconditionFailed,
-  throwCustomValidationError,
-  throwForbiddenError,
-  throwExpired,
-  throwReauthentication,
-  throwTooManyRequests,
-  throwMethodNotAllowed,
-  throwTimeOut,
 };

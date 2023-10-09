@@ -1,0 +1,27 @@
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const {
+  ENVIRONMENT = "ochosteve",
+  APP_PORT = "8080",
+  APP_HOST,
+  MONGO_URL,
+  NODE_ENV,
+  CLOUDINARY_API_KEY,
+  CLOUDINARY_CLOUD_NAME,
+  CLOUDINARY_API_SECRET,
+  CLOUDINARY_URL,
+} = process.env;
+
+export {
+  ENVIRONMENT,
+  APP_PORT,
+  APP_HOST,
+  MONGO_URL,
+  NODE_ENV,
+  CLOUDINARY_API_KEY,
+  CLOUDINARY_CLOUD_NAME,
+  CLOUDINARY_API_SECRET,
+  CLOUDINARY_URL,
+};

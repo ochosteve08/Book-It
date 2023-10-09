@@ -1,11 +1,11 @@
-const { STATUS } = require("../consts");
+import { STATUS } from "../consts/status.js";
 
 /**
  * Return success payload
  * @param data
  * @returns {{data: *, meta: {version: number, timestamp: Date}}}
  */
-const successSchema = (data) => ({
+export const successSchema = (data) => ({
   data,
   meta: {
     version: 1.0,
@@ -24,7 +24,7 @@ const successSchema = (data) => ({
  * }
  * @returns {{meta: {version: number, timestamp: Date}, error: {code: *, message: *}}}
  */
-const commonErrorSchema = ({
+export const commonErrorSchema = ({
   code,
   name,
   message,
@@ -54,7 +54,7 @@ const commonErrorSchema = ({
   return response;
 };
 
-const mongoErrorSchema = ({
+export const mongoErrorSchema = ({
   code,
   name,
   message,
@@ -104,7 +104,7 @@ const mongoErrorSchema = ({
  * }
  * @returns {{meta: {version: number, timestamp: Date}, error: {code: number, message: string, fields: Array}}}
  */
-const joiValidationErrorSchema = ({
+export const joiValidationErrorSchema = ({
   code = STATUS.BAD_REQUEST,
   name,
   details,
@@ -128,22 +128,19 @@ const joiValidationErrorSchema = ({
     },
   };
 
+if (details && Array.isArray(details)) {
   details.map((e) => {
     response.error.fields.push({
       key: e.context.key,
       type: e.type,
       message: e.message.split(":")[0],
     });
-
     return e;
   });
+}
+
+ 
 
   return response;
 };
 
-module.exports = {
-  commonErrorSchema,
-  joiValidationErrorSchema,
-  successSchema,
-  mongoErrorSchema,
-};
