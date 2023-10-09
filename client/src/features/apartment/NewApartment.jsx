@@ -14,7 +14,7 @@ import {
 import { TbToolsKitchen2 } from "react-icons/tb";
 import { useState, useRef } from "react";
 import { toast } from "react-toastify";
-import { BASE_URL } from "../../app/api/axios";
+import apiInstance from "../../app/api/axios";
 
 const NewApartment = () => {
   const [title, setTitle] = useState("");
@@ -44,7 +44,6 @@ const NewApartment = () => {
     });
   };
 
-  console.log(perks)
   const handleFileChange = (event) => {
     if (photos.length === 6) return;
     const selectedPhotos = Array.from(event.target.files);
@@ -114,16 +113,17 @@ const NewApartment = () => {
         data.append("images", photo);
       });
 
-      const response = await fetch(`${BASE_URL}/apartment`, {
-        method: "POST",
-        body: data,
-      });
-      if (!response.ok) {
+  
+
+      const response = await apiInstance.post("/apartment", data);
+      const {apartment} = { ...response.data.data };
+      console.log(apartment);
+    
+
+      if (!response.status === 200) {
         throw new Error("Failed to upload file");
       }
-      const result = await response.json();
-
-      console.log(result.data);
+      toast.success("apartment added successfully");
     } catch (error) {
       console.log("Error:", error);
     }
@@ -189,7 +189,7 @@ const NewApartment = () => {
           />
           <button
             type="button"
-            className="bg-primary text-white px-4 py-2 rounded-full mt-3 w-2/5 flex justify-center items-center gap-3 "
+            className="bg-primary text-white px-4 py-2 rounded-full mt-3 w-2/5 flex justify-center items-center gap-3 outline-none border-none"
             onClick={(event) => {
               event.preventDefault();
               fileRef.current.click();
@@ -368,7 +368,7 @@ const NewApartment = () => {
             </label>
           </div>
         </div>
-       
+
         <div className="flex flex-col">
           <label htmlFor="information" className="text-xl font-semibold">
             Extra Information
