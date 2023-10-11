@@ -10,6 +10,7 @@ const PersistLogin = () => {
   const refresh = useRefresh();
   const [persist] = usePersist();
   const token = useSelector(userToken);
+  console.log(token)
 
   useEffect(() => {
     const verifyRefreshToken = async () => {
@@ -25,13 +26,14 @@ const PersistLogin = () => {
   }, [refresh, token]);
 
   return (
+  
     <>
-      {!token ? (
+      {isLoading ? (
+        <p className="text-3xl">Loading....</p>
+      ) : !token ? (
         <Navigate to="/login" />
       ) : !persist ? (
         <Outlet />
-      ) : isLoading ? (
-        <p>Loading....</p>
       ) : (
         <Outlet />
       )}

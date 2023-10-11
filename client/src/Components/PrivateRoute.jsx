@@ -6,9 +6,9 @@ const PrivateRoute = () => {
   const token = useSelector(userToken);
   console.log(token);
 
-  return <outlet />;
+  // return <outlet />;
 
-  // return token ? <Outlet /> : <Navigate to="/signin" />;
+  return token ? <Outlet /> : <Navigate to="/signin" />;
 };
 
 export default PrivateRoute;

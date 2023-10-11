@@ -4,11 +4,11 @@ import About from "./pages/About";
 import Profile from "./pages/Profile";
 import SignIn from "./features/auth/SignIn";
 import SignUp from "./features/auth/SignUp";
-// import PrivateRoute from "./Components/PrivateRoute";
+import PrivateRoute from "./Components/PrivateRoute";
 import Layout from "./layout/Layout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import PersistLogin from "./features/auth/PersistLogin";
+import PersistLogin from "./features/auth/PersistLogin";
 import Bookings from "./features/booking/Bookings";
 import Apartment from "./features/apartment/Apartment";
 import ProfileLayout from "./layout/ProfileLayout";
@@ -25,8 +25,8 @@ function App() {
           <Route path="signin" element={<SignIn />} />
           <Route path="signup" element={<SignUp />} />
 
-          {/* <Route element={<PersistLogin />}>
-              <Route element={<PrivateRoute />}> */}
+          <Route element={<PersistLogin />}>
+              <Route element={<PrivateRoute />}>
           <Route path="profile" element={<ProfileLayout />}>
             <Route index element={<Profile />} />
             <Route path="bookings" element={<Bookings />} />
@@ -36,8 +36,8 @@ function App() {
             </Route>
           </Route>
         </Route>
-        {/* </Route>
-          </Route> */}
+        </Route>
+          </Route>
       </Routes>
       <ToastContainer
         position="bottom-right"
