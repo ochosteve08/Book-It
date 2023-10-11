@@ -17,9 +17,8 @@ export const createApartment = async (req, res, next) => {
       maxGuests,
     } = req.body;
 
-  const parsedMaxGuests = Number(maxGuests);
-  const parsedPerks = perks[0].split(",");
-
+    const parsedMaxGuests = Number(maxGuests);
+    const parsedPerks = perks[0].split(",");
 
     let secure_urls = [];
     for (let file of files) {
@@ -34,12 +33,10 @@ export const createApartment = async (req, res, next) => {
       }
 
       secure_urls.push(imageDetails.secure_url);
-      
     }
 
-    
     const apartment = await addApartment(
-       title,
+      title,
       address,
       description,
       secure_urls,
@@ -47,11 +44,10 @@ export const createApartment = async (req, res, next) => {
       extraInfo,
       checkIn,
       checkOut,
-      parsedMaxGuests,
+      parsedMaxGuests
     );
-   
 
-    return success.handler({apartment}, req, res, next);
+    return success.handler({ apartment }, req, res, next);
   } catch (err) {
     return error.handler(err, req, res, next);
   }

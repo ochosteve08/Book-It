@@ -10,3 +10,11 @@ html, body{
     width:100vw;
 
 }
+
+input[type="checkbox"] {
+  box-sizing: border-box;
+  padding: 0;
+     
+  accent-color:#F5385D ;
+  /* accent-color: #673ab7; */
+}

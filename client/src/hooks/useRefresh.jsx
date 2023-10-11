@@ -12,6 +12,7 @@ const useRefresh = () => {
       });
 
       if (response.status === 200) {
+        console.log(response.data)
         dispatch(signInSuccess(response.data));
       } else if (response.status === 403) {
         dispatch(signInFailure());

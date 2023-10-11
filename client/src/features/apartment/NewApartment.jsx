@@ -15,6 +15,7 @@ import { TbToolsKitchen2 } from "react-icons/tb";
 import { useState, useRef } from "react";
 import { toast } from "react-toastify";
 import apiInstance from "../../app/api/axios";
+import { useNavigate } from "react-router-dom";
 
 const NewApartment = () => {
   const [title, setTitle] = useState("");
@@ -27,6 +28,7 @@ const NewApartment = () => {
   const [maxGuests, setMaxGuests] = useState(1);
   const [extraInfo, setExtraInfo] = useState("");
   const fileRef = useRef(null);
+  const navigate = useNavigate();
 
   const handlePerkChange = (event) => {
     const { name, checked } = event.target;
@@ -97,7 +99,6 @@ const NewApartment = () => {
     event.preventDefault();
 
     try {
-      // Handle File Data from the state Before Sending
       const data = new FormData();
 
       data.append("title", title);
@@ -109,23 +110,22 @@ const NewApartment = () => {
       data.append("extraInfo", extraInfo);
       data.append("maxGuests", maxGuests);
 
-      photos.forEach((photo, index) => {
+      photos.forEach((photo) => {
         data.append("images", photo);
       });
 
-  
-
       const response = await apiInstance.post("/apartment", data);
-      const {apartment} = { ...response.data.data };
+      const { apartment } = { ...response.data.data };
       console.log(apartment);
-    
 
       if (!response.status === 200) {
         throw new Error("Failed to upload file");
       }
       toast.success("apartment added successfully");
+      navigate("/profile/apartment");
     } catch (error) {
       console.log("Error:", error);
+      toast.error(error);
     }
   };
 
@@ -243,7 +243,12 @@ const NewApartment = () => {
               htmlFor="wifi"
               className="flex gap-3 items-center border  rounded-xl p-3 cursor-pointer"
             >
-              <input type="checkbox" name="wifi" onChange={handlePerkChange} />
+              <input
+                type="checkbox"
+                className="bg-primary"
+                name="wifi"
+                onChange={handlePerkChange}
+              />
               <MdWifi className="text-2xl" /> <span>wifi</span>
             </label>
             <label

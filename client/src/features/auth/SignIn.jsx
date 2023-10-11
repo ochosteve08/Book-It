@@ -48,14 +48,14 @@ const SignIn = () => {
         body: JSON.stringify(formData),
       });
 
-      if (!response.ok) {
+      if (!response?.ok) {
         const error = await response.json();
         dispatch(signInFailure(error.message));
         toast.error(error.message);
         throw new Error(error.message || "Something went wrong");
       }
 
-      if (response.ok) {
+      if (response?.ok) {
         const data = await response.json();
 
         dispatch(signInSuccess(data));
@@ -71,6 +71,7 @@ const SignIn = () => {
           )
         );
       } else {
+        console.log(error)
         dispatch(signInFailure(error.message));
       }
     }
