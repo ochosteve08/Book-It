@@ -122,7 +122,7 @@ const NewApartment = () => {
         throw new Error("Failed to upload file");
       }
       toast.success("apartment added successfully");
-      navigate("/profile/apartment");
+      navigate('/profile/apartment/${apartment._id}');
     } catch (error) {
       console.log("Error:", error);
       toast.error(error);

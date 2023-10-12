@@ -1,5 +1,6 @@
 import {Link} from 'react-router-dom'
 import {FaPlus} from 'react-icons/fa'
+import MyApartments from '../../Components/MyApartments';
 
 const Apartment = () => {
   return (
@@ -14,6 +15,7 @@ const Apartment = () => {
         </Link>
       </div>
       {/* list of apartments */}
+      <MyApartments/>
     </div>
   );
 }

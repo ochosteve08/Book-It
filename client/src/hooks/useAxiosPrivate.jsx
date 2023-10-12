@@ -1,10 +1,10 @@
 import { axiosPrivate } from "../app/api/axios";
 import { useEffect, useState } from "react";
 import useRefresh from "./useRefresh";
-import { userToken } from "../features/user/UserSlice";
+import { userToken } from "../features/auth/UserSlice";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { signInFailure } from "../features/user/UserSlice";
+import { signInFailure } from "../features/auth/UserSlice";
 
 const useAxiosPrivate = () => {
 
