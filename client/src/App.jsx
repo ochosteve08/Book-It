@@ -13,7 +13,8 @@ import Bookings from "./features/booking/Bookings";
 import Apartment from "./features/apartment/Apartment";
 import ProfileLayout from "./layout/ProfileLayout";
 import ApartmentLayout from "./layout/ApartmentLayout";
-import NewApartment from "./features/apartment/NewApartment";
+import NewApartment from "./features/apartment/NewApartmentForm";
+import ApartmentDetails from "./features/apartment/ApartmentDetails";
 
 function App() {
   return (
@@ -26,18 +27,19 @@ function App() {
           <Route path="signup" element={<SignUp />} />
 
           <Route element={<PersistLogin />}>
-              <Route element={<PrivateRoute />}>
-          <Route path="profile" element={<ProfileLayout />}>
-            <Route index element={<Profile />} />
-            <Route path="bookings" element={<Bookings />} />
-            <Route path="apartment" element={<ApartmentLayout />}>
-              <Route index element={<Apartment />} />
-              <Route path="new" element={<NewApartment />} />
+            <Route element={<PrivateRoute />}>
+              <Route path="profile" element={<ProfileLayout />}>
+                <Route index element={<Profile />} />
+                <Route path="bookings" element={<Bookings />} />
+                <Route path="apartment" element={<ApartmentLayout />}>
+                  <Route index element={<Apartment />} />
+                  <Route path="new" element={<NewApartment />} />
+                  <Route path=":id" element={<ApartmentDetails />} />
+                </Route>
+              </Route>
             </Route>
           </Route>
         </Route>
-        </Route>
-          </Route>
       </Routes>
       <ToastContainer
         position="bottom-right"
