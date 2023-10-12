@@ -52,3 +52,64 @@ export const createApartment = async (req, res, next) => {
     return error.handler(err, req, res, next);
   }
 };
+
+
+export const getAllApartments = async (req, res, next) => {
+  try {
+    const employees = await fetchAllEmployees();
+    if (!employees?.length) {
+      next(errorHandler(204, "No employee found"));
+    }
+    res.status(200).json(employees);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getEmployee = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const employee = await fetchEmployee({ id });
+    if (!employee) {
+      next(errorHandler(400, "No employee found"));
+    }
+    res.status(200).json(employee);
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+
+export const updateEmployee = async (req, res, next) => {
+  const { id } = req.params;
+  const { firstName, lastName } = req.body;
+
+  if (!id) {
+    return next(errorHandler(401, "kindly login"));
+  }
+  try {
+    const updatedUser = await update({
+      id,
+      firstName,
+      lastName,
+    });
+
+    res.status(200).json(User);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteEmployee = async (req, res, next) => {
+  const { id } = req.params;
+  if (!id) {
+    return next(errorHandler(401, "kindly login"));
+  }
+  try {
+    await removeEmployee({ id });
+    res.status(204).json("Employee has been deleted...");
+  } catch (error) {
+    next(error);
+  }
+};
