@@ -1,4 +1,10 @@
-import { addApartment } from "../services/apartment.service.js";
+import {
+  addApartment,
+  update,
+  removeApartment,
+  fetchApartment,
+  fetchAllApartments,
+} from "../services/apartment.service.js";
 import { bufferToDataURI } from "../utils/file.js";
 import { uploadToCloudinary } from "../utils/cloudinary.js";
 import { success, error } from "../lib-handler/index.js";
@@ -56,9 +62,9 @@ export const createApartment = async (req, res, next) => {
 
 export const getAllApartments = async (req, res, next) => {
   try {
-    const employees = await fetchAllEmployees();
+    const employees = await fetchAllApartments();
     if (!employees?.length) {
-      next(errorHandler(204, "No employee found"));
+      next(errorHandler(204, "No apartment found"));
     }
     res.status(200).json(employees);
   } catch (error) {
@@ -66,10 +72,10 @@ export const getAllApartments = async (req, res, next) => {
   }
 };
 
-export const getEmployee = async (req, res, next) => {
+export const getApartment = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const employee = await fetchEmployee({ id });
+    const employee = await fetchApartment({ id });
     if (!employee) {
       next(errorHandler(400, "No employee found"));
     }
