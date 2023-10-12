@@ -59,63 +59,72 @@ export const createApartment = async (req, res, next) => {
   }
 };
 
-
 export const getAllApartments = async (req, res, next) => {
   try {
-    const employees = await fetchAllApartments();
-    if (!employees?.length) {
-      next(errorHandler(204, "No apartment found"));
+    const apartments = await fetchAllApartments();
+    if (!apartments?.length) {
+      throw error.throwNotFound({ message: "No apartments found" });
     }
-    res.status(200).json(employees);
-  } catch (error) {
-    next(error);
+    return success.handler({ apartments }, req, res, next);
+  } catch (err) {
+    return error.handler(err, req, res, next);
   }
 };
 
 export const getApartment = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const employee = await fetchApartment({ id });
-    if (!employee) {
-      next(errorHandler(400, "No employee found"));
+    const apartment = await fetchApartment({ id });
+    if (!apartment) {
+      throw error.throwNotFound({ message: "No apartment found" });
     }
-    res.status(200).json(employee);
-  } catch (error) {
-    next(error);
+    return success.handler({ apartment }, req, res, next);
+  } catch (err) {
+    return error.handler(err, req, res, next);
   }
 };
 
-
-
-export const updateEmployee = async (req, res, next) => {
+export const updateApartment = async (req, res, next) => {
   const { id } = req.params;
-  const { firstName, lastName } = req.body;
+  const {
+    title,
+    address,
+    description,
+    secure_urls,
+    parsedPerks,
+    extraInfo,
+    checkIn,
+    checkOut,
+    parsedMaxGuests,
+  } = req.body;
 
-  if (!id) {
-    return next(errorHandler(401, "kindly login"));
-  }
   try {
-    const updatedUser = await update({
+    const apartment = await update({
       id,
-      firstName,
-      lastName,
+      title,
+      address,
+      description,
+      secure_urls,
+      parsedPerks,
+      extraInfo,
+      checkIn,
+      checkOut,
+      parsedMaxGuests,
     });
 
-    res.status(200).json(User);
-  } catch (error) {
-    next(error);
+    return success.handler({ apartment }, req, res, next);
+  } catch (err) {
+    return error.handler(err, req, res, next);
   }
 };
 
-export const deleteEmployee = async (req, res, next) => {
+export const deleteApartment = async (req, res, next) => {
   const { id } = req.params;
-  if (!id) {
-    return next(errorHandler(401, "kindly login"));
-  }
+
   try {
-    await removeEmployee({ id });
-    res.status(204).json("Employee has been deleted...");
-  } catch (error) {
-    next(error);
+    const apartment = await removeApartment({ id });
+    return success.handler({ apartment }, req, res, next);
+  } catch (err) {
+    return error.handler(err, req, res, next);
   }
 };
