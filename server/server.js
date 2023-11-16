@@ -15,7 +15,7 @@ const app = express();
 const port = 3500;
 app.use(cookieParser());
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(process.env.MONGO_URL)
   .then(() => {
     console.log("connected to mongodb");
   })
@@ -24,7 +24,7 @@ mongoose
   });
 
 app.get("/", (req, res) => {
-  res.json({ message: "working" });
+  res.json({ message: "book app is working" });
 });
 
 morgan.token("id", function getId(req) {
@@ -59,8 +59,8 @@ app.listen(port, () => {
 
 app.use(logger);
 app.use("/auth", authRoute);
-app.use('/user', userRoute)
-app.use("/apartment", apartmentRoute);
+app.use('/users', userRoute)
+app.use("/apartments", apartmentRoute);
 
 
 

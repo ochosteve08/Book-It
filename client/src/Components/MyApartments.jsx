@@ -7,6 +7,7 @@ const MyApartments = () => {
    const [apartments, setApartments] = useState("");
    const refresh = useRefresh();
    const axiosPrivate = useAxiosPrivate();
+   console.log(apartments)
 
   useEffect(()=>{
 let isMounted = true;
@@ -17,8 +18,9 @@ const getApartments = async () => {
     const response = await axiosPrivate.get("/apartments", {
       signal: controller.signal,
     });
-console.log(response)
-    isMounted && setUsers(response.data);
+     const { apartments } = { ...response.data.data };
+console.log(apartments)
+    isMounted && setApartments(apartments);
   } catch (error) {
     console.log(error);
   }
@@ -36,6 +38,9 @@ return () => {
     <div>
       <h3 className="mt-6 text-center font-bold uppercase text-3xl">Apartment Lists</h3>
       <div className="" >
+      {/* {apartments.length > 0 && apartments.map((apartment)=>)
+
+      } */}
 
       </div>
     </div>
