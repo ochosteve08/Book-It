@@ -40,7 +40,7 @@ const Header = () => {
             {currentUser ? (
               <img
                 src={currentUser?.profilePicture}
-                alt="profile-picture"
+                alt=""
                 className="rounded-full self-center object-cover"
                 width={30}
               

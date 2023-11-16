@@ -74,6 +74,7 @@ export const getAllApartments = async (req, res, next) => {
 export const getApartment = async (req, res, next) => {
   try {
     const { id } = req.params;
+    
     const apartment = await fetchApartment({ id });
     if (!apartment) {
       throw error.throwNotFound({ message: "No apartment found" });
