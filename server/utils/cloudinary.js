@@ -38,7 +38,9 @@ export const deleteImageFromCloudinary = async (cloudinaryId) => {
     const result = await uploader.destroy(cloudinaryId);
     // If the result contains the "result" field and its value is "ok", the image was successfully deleted
     if (result && result.result === "ok") {
-      console.log("Image deleted successfully from Cloudinary");
+           return res
+        .status(200)
+        .json('"Image deleted successfully from Cloudinary"');
     } else {
       throw new Error("Failed to delete image from Cloudinary");
     }
