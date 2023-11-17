@@ -23,7 +23,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
-          <Route path="signin" element={<SignIn />} />
+          <Route path="login" element={<SignIn />} />
           <Route path="signup" element={<SignUp />} />
 
           <Route element={<PersistLogin />}>
