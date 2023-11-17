@@ -8,6 +8,8 @@ import apartmentRoute from './route/apartment.route.js'
 import cookieParser from "cookie-parser";
 import { logger, logEvents } from "./middleware/logger.js";
 import morgan from "morgan";
+import  swaggerUi from "swagger-ui-express";
+// import  swaggerJson from "./doc/swagger.json";
 dotenv.config();
 
 
@@ -49,6 +51,8 @@ app.use(
     credentials: true,
   })
 );
+
+
 
 app.get("/", (req, res) => {
   res.json({ message: "api working fine" });

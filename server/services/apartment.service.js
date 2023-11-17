@@ -21,10 +21,15 @@ export const addApartment = async (
     checkIn,
     checkOut,
     maxGuests: parsedMaxGuests,
+    userId,
   });
 
 export const fetchAllApartments = async () => {
   return await ApartmentModel.find();
+};
+
+export const fetchUserApartments = async ({ userId }) => {
+  return await ApartmentModel.find({ userId });
 };
 
 export const fetchApartment = async ({ id }) =>
@@ -63,4 +68,3 @@ export const update = async ({
 
 export const removeApartment = async ({ id }) =>
   await ApartmentModel.findOneAndDelete({ _id: id });
-

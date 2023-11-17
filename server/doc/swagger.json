@@ -1,0 +1,520 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Apartment Booking API Documentation",
+        "version": "1.0.0",
+        "description": " API documentation for managing apartment bookings"
+    },
+    "servers": [
+        {
+            "url": "http: //localhost:3500/api/v1",
+            "description": " Apartment Booking App local server"
+        }
+    ],
+    "paths": {
+        "/apartments": {
+            "post": {
+                "tags": [
+                    "Apartments"
+                ],
+                "summary": "Create a new apartment item",
+                "description": "Endpoint to create a new TODO",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "address": {
+                                        "type": "string"
+                                    },
+                                    "userId": {
+                                        "type": "string",
+                                        "description": "User's unique identifier"
+                                    },
+                                    "Photos": {
+                                        "type": "string",
+                                        "format": "array",
+                                        "description": "photos of apartment"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "Perks": {
+                                        "type": "string",
+                                        "format": "array",
+                                        "description": "features in apartment"
+                                    },
+                                    "checkIn": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Check-in date for the apartment"
+                                    },
+                                    "checkOut": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Check-in date for the apartment"
+                                    },
+                                    "extraInfo": {
+                                        "type": "string"
+                                    },
+                                    "maxGuests": {
+                                        "type": "number"
+                                    }
+                                },
+                                "required": [
+                                    "title",
+                                    "description",
+                                    "userId",
+                                    "address",
+                                    "Photos",
+                                    "Perks",
+                                    "checkIn",
+                                    "checkOut",
+                                    "extraInfo",
+                                    "maxGuests"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "apartment successfully created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "apartment": {
+                                            "$ref": "#/components/schemas/apartment"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            },
+            "get": {
+                "tags": [
+                    "Apartments"
+                ],
+                "summary": "Retrieve all Apartments",
+                "description": "Endpoint to fetch all apartments",
+                "responses": {
+                    "200": {
+                        "description": "List of apartments",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TodoItem"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/apartments/{id}": {
+            "get": {
+                "tags": [
+                    "Apartments"
+                ],
+                "summary": "Retrieve a specific apartment",
+                "description": "Endpoint to get details of an apartment by ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the apartment",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details of the apartment",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/apartment"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "apartment not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Apartments"
+                ],
+                "summary": "Update a specific apartment",
+                "description": "Endpoint to update an apartment by ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the apartment",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "address": {
+                                        "type": "string"
+                                    },
+                                    "userId": {
+                                        "type": "string",
+                                        "description": "User's unique identifier"
+                                    },
+                                    "Photos": {
+                                        "type": "string",
+                                        "format": "array",
+                                        "description": "photos of apartment"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "Perks": {
+                                        "type": "string",
+                                        "format": "array",
+                                        "description": "features in apartment"
+                                    },
+                                    "checkIn": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Check-in date for the apartment"
+                                    },
+                                    "checkOut": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "description": "Check-in date for the apartment"
+                                    },
+                                    "extraInfo": {
+                                        "type": "string"
+                                    },
+                                    "maxGuests": {
+                                        "type": "number"
+                                    }
+                                },
+                                "required": [
+                                    "title",
+                                    "description",
+                                    "userId",
+                                    "address",
+                                    "Photos",
+                                    "Perks",
+                                    "checkIn",
+                                    "checkOut",
+                                    "extraInfo",
+                                    "maxGuests"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "apartment successfully updated"
+                    },
+                    "404": {
+                        "description": "apartment not found"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Apartments"
+                ],
+                "summary": "Delete an apartment",
+                "description": "Endpoint to delete an apartment by apartmentId",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the apartment",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "apartment successfully deleted"
+                    },
+                    "404": {
+                        "description": "apartment not found"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/apartments/{userId}": {
+            "get": {
+                "tags": [
+                    "Apartments"
+                ],
+                "summary": "Retrieve a user apartments",
+                "description": "Endpoint to get details of all apartments belonging to a user",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Details of all user apartments",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/apartments"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "apartments not found"
+                    }
+                },
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/users/signup": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Register a new user",
+                "description": "Endpoint to register a new user",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "description": "User's email address"
+                                    },
+                                    "username": {
+                                        "type": "string",
+                                        "description": "username"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "description": "User's password"
+                                    }
+                                },
+                                "required": [
+                                    "email",
+                                    "password"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User registered successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "user": {
+                                            "$ref": "#/components/schemas/User"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "description": "Authentication token"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/users/signin": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Login a user",
+                "description": "Endpoint to login a user",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "description": "User's email address"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "description": "User's password"
+                                    }
+                                },
+                                "required": [
+                                    "email",
+                                    "password"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User logged in successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "user": {
+                                            "$ref": "#/components/schemas/User"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "description": "Authentication token"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Apartment": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "type": "string"
+                    },
+                    "userId": {
+                        "type": "string",
+                        "description": "User's unique identifier"
+                    },
+                    "Photos": {
+                        "type": "string",
+                        "format": "array",
+                        "description": "photos of apartment"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "Perks": {
+                        "type": "string",
+                        "format": "array",
+                        "description": "features in apartment"
+                    },
+                    "checkIn": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Check-in date for the apartment"
+                    },
+                    "checkOut": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Check-in date for the apartment"
+                    },
+                    "extraInfo": {
+                        "type": "string"
+                    },
+                    "maxGuests": {
+                        "type": "number"
+                    }
+                }
+            },
+            "User": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string",
+                        "description": "User's unique identifier"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "description": "User's email address"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "BearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}

@@ -1,20 +1,25 @@
 import axios from "../app/api/axios";
 import { useDispatch } from "react-redux";
 import { signInFailure, signInSuccess } from "../features/auth/UserSlice";
+import { useNavigate} from "react-router-dom";
 
 const useRefresh = () => {
   const dispatch = useDispatch();
+    const navigate = useNavigate();
 
   const refresh = async () => {
     try {
       const response = await axios.get("/auth/refresh", {
         withCredentials: true,
       });
+      console.log(response.status)
+      console.log(response)
 
-      if (response.status === 200) {
+      if (response.statusCode === 200) {
         console.log(response.data)
         dispatch(signInSuccess(response.data));
-      } else if (response.status === 403) {
+      } else if (response.statusCode === 403) {
+         navigate("/login");
         dispatch(signInFailure());
       }
     } catch (error) {
