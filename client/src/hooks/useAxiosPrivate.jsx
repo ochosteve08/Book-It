@@ -31,7 +31,7 @@ const useAxiosPrivate = () => {
       (response) => response,
       async (error) => {
         const prevRequest = error?.config;
-        console.log("axios:", error?.response?.status);
+       
         if (
           error?.response?.status === 403 &&
           !prevRequest?.sent &&
@@ -45,7 +45,7 @@ const useAxiosPrivate = () => {
             prevRequest.headers["Authorization"] = `Bearer ${token}`;
             return axiosPrivate(prevRequest);
           } catch (refreshError) {
-            console.log(refreshError);
+           
             dispatch(signInFailure(refreshError));
             navigate("/login", { state: { from: location }, replace: true });
 

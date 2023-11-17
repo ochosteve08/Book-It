@@ -12,13 +12,12 @@ const useRefresh = () => {
       const response = await axios.get("/auth/refresh", {
         withCredentials: true,
       });
-      console.log(response.status)
-      console.log(response)
+     
 
-      if (response.statusCode === 200) {
-        console.log(response.data)
+      if (response.status === 200) {
+      
         dispatch(signInSuccess(response.data));
-      } else if (response.statusCode === 403) {
+      } else if (response.status === 403) {
          navigate("/login");
         dispatch(signInFailure());
       }
