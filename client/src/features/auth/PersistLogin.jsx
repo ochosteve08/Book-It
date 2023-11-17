@@ -10,8 +10,7 @@ const PersistLogin = () => {
   const refresh = useRefresh();
   const [persist] = usePersist();
   const token = useSelector(userToken);
-  console.log("persistLogin:",token)
-  console.log("persistLogin:",persist)
+
 
   useEffect(() => {
     const verifyRefreshToken = async () => {

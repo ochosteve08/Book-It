@@ -116,7 +116,7 @@ const NewApartment = () => {
 
       const response = await apiInstance.post("/apartment", data);
       const { apartment } = { ...response.data.data };
-      console.log(apartment);
+     
 
       if (!response.status === 200) {
         throw new Error("Failed to upload file");

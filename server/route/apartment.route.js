@@ -18,7 +18,7 @@ router.get("/", getAllApartments);
 router.get("/:id", getApartment);
 router.patch("/:id",verifyToken, updateApartment);
 router.delete("/:id",verifyToken, deleteApartment);
-router.get("/:userId/user",verifyToken, getUserApartments);
+router.get("/:userId/apartments",verifyToken, getUserApartments);
 
 export default router;
 

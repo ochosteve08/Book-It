@@ -9,18 +9,14 @@ export const Signup = async (req, res, next) => {
   try {
     const { username, email, password } =
       await registerUserValidation.validateAsync(req.body);
-    console.log({
-      username,
-      email,
-      password,
-    });
+ 
     const hashPassword = bcryptjs.hashSync(password, 10);
     const newUser = await UserModel.create({
       username,
       email,
       password: hashPassword,
     });
-    console.log(newUser);
+  
     const { password: _, ...userInfo } = newUser._doc;
     res.json(userInfo);
   } catch (error) {
@@ -175,7 +171,7 @@ export const Refresh = (req, res, next) => {
   if (!cookies?.refresh_token)
     return next(errorHandler(401, "invalid credentials"));
   const refreshToken = cookies.refresh_token;
-  console.log(refreshToken);
+ 
 
   jwt.verify(refreshToken, jwtSecret, async (err, decoded) => {
     try {
