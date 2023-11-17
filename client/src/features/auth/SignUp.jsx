@@ -99,7 +99,7 @@ const SignUp = () => {
       </form>
       <div className="flex space-x-3 my-3">
         <p>Have An Account Already?</p>
-        <Link to={"/signin"}>
+        <Link to={"/login"}>
           <span className="text-blue-800 cursor-pointer">Login Here</span>
         </Link>
       </div>
